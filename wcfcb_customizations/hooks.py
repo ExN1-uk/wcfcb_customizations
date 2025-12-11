@@ -11,29 +11,13 @@ app_license = "mit"
 required_apps = ["frappe", "erpnext", "hrms"]
 
 # Fixtures - All customizations to be exported/imported
+# Order matters! DocTypes must come before things that reference them
 # ------------------------------------------------------
 fixtures = [
-    # Custom Modules (ExN, ZRA INTERGRATION, WCFCB CRM)
+    # 1. Custom Modules FIRST (needed by DocTypes)
     {"dt": "Module Def", "filters": [["name", "in", ["ExN", "ZRA INTERGRATION", "WCFCB CRM"]]]},
 
-    # Custom Fields on standard DocTypes
-    "Custom Field",
-
-    # Property modifications on standard fields
-    "Property Setter",
-
-    # Server-side Python scripts
-    "Server Script",
-
-    # Client-side JavaScript scripts
-    "Client Script",
-
-    # Workflow definitions
-    "Workflow",
-    "Workflow State",
-    "Workflow Action Master",
-
-    # Custom Roles
+    # 2. Custom Roles (needed by DocTypes and Workflows)
     {"dt": "Role", "filters": [
         ["name", "not in", [
             "System Manager", "Administrator", "Guest", "All",
@@ -44,31 +28,40 @@ fixtures = [
         ]]
     ]},
 
-    # Notifications/Alerts
-    "Notification",
+    # 3. Workflow States (needed by Workflows)
+    "Workflow State",
+    "Workflow Action Master",
 
-    # Custom Reports
-    {"dt": "Report", "filters": [["is_standard", "=", "No"]]},
-
-    # Print Formats
-    {"dt": "Print Format", "filters": [["standard", "=", "No"]]},
-
-    # Letter Heads
-    "Letter Head",
-
-    # Email Templates
-    "Email Template",
-
-    # Custom DocTypes (created via UI)
+    # 4. Custom DocTypes BEFORE anything that references them
     {"dt": "DocType", "filters": [["custom", "=", 1]]},
 
-    # Dashboard Charts
-    {"dt": "Dashboard Chart", "filters": [["is_standard", "=", 0]]},
+    # 5. Property Setters (modify existing fields)
+    "Property Setter",
 
-    # Number Cards
+    # 6. Custom Fields (add fields to DocTypes)
+    "Custom Field",
+
+    # 7. Workflows (reference DocTypes and create workflow_state field)
+    "Workflow",
+
+    # 8. Scripts
+    "Server Script",
+    "Client Script",
+
+    # 9. Notifications (may reference custom DocTypes)
+    "Notification",
+
+    # 10. Reports, Print Formats, etc.
+    {"dt": "Report", "filters": [["is_standard", "=", "No"]]},
+    {"dt": "Print Format", "filters": [["standard", "=", "No"]]},
+    "Letter Head",
+    "Email Template",
+
+    # 11. Dashboard items
+    {"dt": "Dashboard Chart", "filters": [["is_standard", "=", 0]]},
     {"dt": "Number Card", "filters": [["is_standard", "=", 0]]},
 
-    # Custom Workspaces (module filter for custom modules)
+    # 12. Workspaces LAST
     {"dt": "Workspace", "filters": [["module", "in", [
         "ExN", "WCFCB ZM", "WCFCB CRM", "ZRA INTERGRATION", "Accounts", "Assets"
     ]]]},
