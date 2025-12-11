@@ -48,8 +48,8 @@ fixtures = [
     "Server Script",
     "Client Script",
 
-    # 9. Notifications (may reference custom DocTypes)
-    "Notification",
+    # 9. Notifications - DISABLED due to Frappe version compatibility issues
+    # "Notification",
 
     # 10. Reports, Print Formats, etc.
     {"dt": "Report", "filters": [["is_standard", "=", "No"]]},
