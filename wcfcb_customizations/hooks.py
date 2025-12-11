@@ -53,7 +53,7 @@ fixtures = [
 
     # 10. Reports, Print Formats, etc.
     {"dt": "Report", "filters": [["is_standard", "=", "No"]]},
-    {"dt": "Print Format", "filters": [["standard", "=", "No"]]},
+    # {"dt": "Print Format", "filters": [["standard", "=", "No"]]},  # DISABLED - Frappe version compat
     "Letter Head",
     "Email Template",
 
