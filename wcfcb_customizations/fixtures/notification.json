@@ -349,7 +349,7 @@
   "enabled": 1,
   "event": "New",
   "is_standard": 0,
-  "message": "<p>Dear Team,</p>\n<p>A new <b>Purchase Requisition</b> has been submitted.</p>\n\n<ul>\n  <li><b>Requisition No.</b>: {{ doc.name }}</li>\n  <li><b>Company</b>: {{ doc.company }}</li>\n  <li><b>Requested By</b>: {{ doc.requested_by or doc.owner }}</li>\n  <li><b>Purpose</b>: {{ doc.title or doc.reason or \"-\" }}</li>\n  <li><b>Total Qty</b>: {{ doc.total_qty }}</li>\n</ul>\n\n<p><b>Items</b></p>\n<table border=\"1\" cellpadding=\"4\" cellspacing=\"0\" width=\"100%\">\n  <tr>\n    <th align=\"left\">Item</th>\n    <th align=\"right\">Qty</th>\n    <th align=\"left\">UOM</th>\n    <th align=\"left\">Schedule Date</th>\n    <th align=\"left\">Warehouse</th>\n  </tr>\n  {% for row in doc.items %}\n  <tr>\n    <td>{{ row.item_code }} — {{ row.item_name }}</td>\n    <td align=\"right\">{{ row.qty }}</td>\n    <td>{{ row.uom }}</td>\n    <td>{{ row.schedule_date }}</td>\n    <td>{{ row.warehouse or \"-\" }}</td>\n  </tr>\n  {% endfor %}\n</table>\n\n<p>Regards,<br>ERPNext</p>\n",
+  "message": "<p>Dear Team,</p>\n<p>A new <b>Purchase Requisition</b> has been submitted.</p>\n\n<ul>\n  <li><b>Requisition No.</b>: {{ doc.name }}</li>\n  <li><b>Company</b>: {{ doc.company }}</li>\n  <li><b>Requested By</b>: {{ doc.requested_by or doc.owner }}</li>\n  <li><b>Purpose</b>: {{ doc.title or doc.reason or \"-\" }}</li>\n  <li><b>Total Qty</b>: {{ doc.total_qty }}</li>\n</ul>\n\n<p><b>Items</b></p>\n<table border=\"1\" cellpadding=\"4\" cellspacing=\"0\" width=\"100%\">\n  <tr>\n    <th align=\"left\">Item</th>\n    <th align=\"right\">Qty</th>\n    <th align=\"left\">UOM</th>\n    <th align=\"left\">Schedule Date</th>\n    <th align=\"left\">Warehouse</th>\n  </tr>\n  {% for row in doc.items %}\n  <tr>\n    <td>{{ row.item_code }} \u2014 {{ row.item_name }}</td>\n    <td align=\"right\">{{ row.qty }}</td>\n    <td>{{ row.uom }}</td>\n    <td>{{ row.schedule_date }}</td>\n    <td>{{ row.warehouse or \"-\" }}</td>\n  </tr>\n  {% endfor %}\n</table>\n\n<p>Regards,<br>ERPNext</p>\n",
   "message_type": "Markdown",
   "method": null,
   "modified": "2025-11-26 12:42:18.077387",
@@ -410,7 +410,7 @@
   "enabled": 0,
   "event": "Save",
   "is_standard": 0,
-  "message": "The asset {{ doc.asset_name }} ({{ doc.name }}) has been transferred to {{ doc.location }}.",
+  "message": "The asset {{ doc.asset_name }} ({{ doc.name }}) has been transferred to {{ doc.location\u00a0}}.",
   "message_type": "Markdown",
   "method": null,
   "modified": "2025-04-08 20:08:29.496265",
@@ -436,7 +436,7 @@
   "sender_email": null,
   "set_property_after_alert": null,
   "slack_webhook_url": null,
-  "subject": "Test Notification: Asset Transferred: {{ doc.name }}",
+  "subject": "Test Notification: Asset Transferred: {{ doc.name\u00a0}}",
   "value_changed": null
  },
  {
@@ -502,7 +502,7 @@
   "enabled": 1,
   "event": "Days Before",
   "is_standard": 0,
-  "message": "Dear {{ doc.employee_name }},\n\nThis is a friendly reminder that your appraisal for the period **{{ doc.start_date }} to {{ doc.end_date }}** is due.  \n\nPlease log in to the ERPNext system to review and complete your appraisal form by **{{ frappe.utils.format_date(doc.due_date) }}**.\n\n🔗 [Click here to access your appraisal]({{ frappe.utils.get_url_to_form(doc.doctype, doc.name) }})\n\nIf you have any questions or require assistance, kindly reach out to the HR department.\n\nThank you,  \nHR Team\n",
+  "message": "Dear {{ doc.employee_name }},\n\nThis is a friendly reminder that your appraisal for the period **{{ doc.start_date }} to {{ doc.end_date }}** is due.  \n\nPlease log in to the ERPNext system to review and complete your appraisal form by **{{ frappe.utils.format_date(doc.due_date) }}**.\n\n\ud83d\udd17 [Click here to access your appraisal]({{ frappe.utils.get_url_to_form(doc.doctype, doc.name) }})\n\nIf you have any questions or require assistance, kindly reach out to the HR department.\n\nThank you,  \nHR Team\n",
   "message_type": "Markdown",
   "method": null,
   "modified": "2025-09-01 23:46:57.767010",
@@ -676,7 +676,7 @@
   "enabled": 0,
   "event": "Submit",
   "is_standard": 0,
-  "message": "<h3>Budget Request – Seeking Additional Budget</h3>\n\n<p>A new budget request ({{ doc.name }}) has been submitted for additional funding. Please review the request and take appropriate action.</p>\n\n<!-- show last comment -->\n{% if comments %}\n<p>Last comment: {{ comments[-1].comment }} by {{ comments[-1].by }}</p>\n{% endif %}\n\n<h4>Request Details</h4>\n\n<ul>\n<li>Related Budget Document: {{ doc.budget }}</li>\n<li>Amount Requested: {{ doc.amount_requested }}</li>\n<li>Expense Account: {{ doc.expense_account }}</li>\n<li>Cost Centre: {{ doc.cost_centre }}</li>\n<li>Justification: {{ doc.justification }}</li>\n</ul>\n\n<p>For further details, please refer to the full Budget Request document in the system.</p>",
+  "message": "<h3>Budget Request \u2013 Seeking Additional Budget</h3>\n\n<p>A new budget request ({{ doc.name }}) has been submitted for additional funding. Please review the request and take appropriate action.</p>\n\n<!-- show last comment -->\n{% if comments %}\n<p>Last comment: {{ comments[-1].comment }} by {{ comments[-1].by }}</p>\n{% endif %}\n\n<h4>Request Details</h4>\n\n<ul>\n<li>Related Budget Document: {{ doc.budget }}</li>\n<li>Amount Requested: {{ doc.amount_requested }}</li>\n<li>Expense Account: {{ doc.expense_account }}</li>\n<li>Cost Centre: {{ doc.cost_centre }}</li>\n<li>Justification: {{ doc.justification }}</li>\n</ul>\n\n<p>For further details, please refer to the full Budget Request document in the system.</p>",
   "message_type": "Markdown",
   "method": null,
   "modified": "2025-06-12 14:04:33.645765",
@@ -768,7 +768,7 @@
   "enabled": 1,
   "event": "Submit",
   "is_standard": 0,
-  "message": "<h3>Annual Budget – Approved Notification</h3>\n\n<p>Dear {{ doc.owner }},</p>\n\n<p>We are pleased to inform you that your submitted annual budget for the upcoming financial year has been <strong>approved</strong>. The approval marks the completion of the planning phase for your cost centre(s) and confirms the allocation of funds for the new fiscal period.</p>\n\n<h4>Budget Summary</h4>\n\n<ul>\n<li><strong>Budget Document:</strong> {{ doc.name }}</li>\n<li><strong>Financial Year:</strong> {{ doc.fiscal_year }}</li>\n<li><strong>Cost Centre:</strong> {{ doc.cost_center }}</li>\n<li><strong>Expense Account:</strong> {{ doc.expense_account }}</li>\n<li><strong>Status:</strong> {{ doc.workflow_state }}</li>\n</ul>\n\n<h4>Next Steps:</h4>\n\n<ul>\n<li><strong>Implementation:</strong> Proceed with procurement and expenditure activities in line with the approved budget.</li>\n<li><strong>Monitoring:</strong> Regularly track your spending and variances through the ERP system’s Budget vs Actual reports.</li>\n<li><strong>Compliance:</strong> Ensure all expenditures follow the financial governance and approval limits set by the organization.</li>\n<li><strong>Amendments:</strong> Any future adjustments must follow the established budget revision process.</li>\n</ul>\n\n<p>You may view your approved budget document using the link below:</p>\n\n<p><a href=\"/app/budget/{{ doc.name }}\">View Approved Budget</a></p>\n\n{% if comments and comments[-1] %}\n<p>Last comment: {{ comments[-1].comment }} by {{ comments[-1].by }}</p>\n{% endif %}\n\n<p>For detailed guidance, refer to the <a href=\"[Insert Budget Guidelines Document Link]\">Budget Management Guidelines</a> or contact the Finance Department.</p>\n\n<p>Congratulations on the successful completion of your budget submission and thank you for your contribution to the financial planning process.</p>\n",
+  "message": "<h3>Annual Budget \u2013 Approved Notification</h3>\n\n<p>Dear {{ doc.owner }},</p>\n\n<p>We are pleased to inform you that your submitted annual budget for the upcoming financial year has been <strong>approved</strong>. The approval marks the completion of the planning phase for your cost centre(s) and confirms the allocation of funds for the new fiscal period.</p>\n\n<h4>Budget Summary</h4>\n\n<ul>\n<li><strong>Budget Document:</strong> {{ doc.name }}</li>\n<li><strong>Financial Year:</strong> {{ doc.fiscal_year }}</li>\n<li><strong>Cost Centre:</strong> {{ doc.cost_center }}</li>\n<li><strong>Expense Account:</strong> {{ doc.expense_account }}</li>\n<li><strong>Status:</strong> {{ doc.workflow_state }}</li>\n</ul>\n\n<h4>Next Steps:</h4>\n\n<ul>\n<li><strong>Implementation:</strong> Proceed with procurement and expenditure activities in line with the approved budget.</li>\n<li><strong>Monitoring:</strong> Regularly track your spending and variances through the ERP system\u2019s Budget vs Actual reports.</li>\n<li><strong>Compliance:</strong> Ensure all expenditures follow the financial governance and approval limits set by the organization.</li>\n<li><strong>Amendments:</strong> Any future adjustments must follow the established budget revision process.</li>\n</ul>\n\n<p>You may view your approved budget document using the link below:</p>\n\n<p><a href=\"/app/budget/{{ doc.name }}\">View Approved Budget</a></p>\n\n{% if comments and comments[-1] %}\n<p>Last comment: {{ comments[-1].comment }} by {{ comments[-1].by }}</p>\n{% endif %}\n\n<p>For detailed guidance, refer to the <a href=\"[Insert Budget Guidelines Document Link]\">Budget Management Guidelines</a> or contact the Finance Department.</p>\n\n<p>Congratulations on the successful completion of your budget submission and thank you for your contribution to the financial planning process.</p>\n",
   "message_type": "Markdown",
   "method": null,
   "modified": "2025-11-12 10:23:38.497325",
@@ -809,7 +809,7 @@
   "enabled": 1,
   "event": "Submit",
   "is_standard": 0,
-  "message": "<h3>New Budget Request Submitted – Review Required</h3>\n\n<p>Dear Budget Manager,</p>\n\n<p>A new budget request has been submitted and requires your review. Please evaluate the request details and take the necessary action as per the organization’s financial procedures.</p>\n\n<h4>Request Summary</h4>\n\n<ul>\n<li><strong>Request ID:</strong> {{ doc.name }}</li>\n<li><strong>Related Budget:</strong> {{ doc.budget }}</li>\n<li><strong>Cost Centre:</strong> {{ doc.cost_centre }}</li>\n<li><strong>Expense Account:</strong> {{ doc.expense_account }}</li>\n<li><strong>Amount Requested:</strong> {{ doc.amount_requested }}</li>\n<li><strong>Amended From:</strong> {{ doc.amended_from or \"N/A\" }}</li>\n</ul>\n\n<h4>Next Steps</h4>\n\n<ul>\n<li><strong>Validate Accuracy:</strong> Ensure the amount requested aligns with the associated budget.</li>\n<li><strong>Check Justifications:</strong> Confirm proper reasoning exists for the amendment or new request.</li>\n<li><strong>Approval Routing:</strong> Route the request for further approvals or feedback if required.</li>\n</ul>\n\n<p>You can view and manage this request in the ERP system using the link below:</p>\n\n<p><a href=\"/app/budget-request/{{ doc.name }}\">Open Budget Request</a></p>\n\n{% if comments and comments[-1] %}\n<p>Last comment: {{ comments[-1].comment }} by {{ comments[-1].by }}</p>\n{% endif %}\n\n<p>For any clarifications, please refer to the <a href=\"[Insert Budget Guidelines Document Link]\">Budget Guidelines Document</a> or contact the Finance Department.</p>\n\n<p>Thank you for ensuring the integrity and efficiency of the budgeting process.</p>\n",
+  "message": "<h3>New Budget Request Submitted \u2013 Review Required</h3>\n\n<p>Dear Budget Manager,</p>\n\n<p>A new budget request has been submitted and requires your review. Please evaluate the request details and take the necessary action as per the organization\u2019s financial procedures.</p>\n\n<h4>Request Summary</h4>\n\n<ul>\n<li><strong>Request ID:</strong> {{ doc.name }}</li>\n<li><strong>Related Budget:</strong> {{ doc.budget }}</li>\n<li><strong>Cost Centre:</strong> {{ doc.cost_centre }}</li>\n<li><strong>Expense Account:</strong> {{ doc.expense_account }}</li>\n<li><strong>Amount Requested:</strong> {{ doc.amount_requested }}</li>\n<li><strong>Amended From:</strong> {{ doc.amended_from or \"N/A\" }}</li>\n</ul>\n\n<h4>Next Steps</h4>\n\n<ul>\n<li><strong>Validate Accuracy:</strong> Ensure the amount requested aligns with the associated budget.</li>\n<li><strong>Check Justifications:</strong> Confirm proper reasoning exists for the amendment or new request.</li>\n<li><strong>Approval Routing:</strong> Route the request for further approvals or feedback if required.</li>\n</ul>\n\n<p>You can view and manage this request in the ERP system using the link below:</p>\n\n<p><a href=\"/app/budget-request/{{ doc.name }}\">Open Budget Request</a></p>\n\n{% if comments and comments[-1] %}\n<p>Last comment: {{ comments[-1].comment }} by {{ comments[-1].by }}</p>\n{% endif %}\n\n<p>For any clarifications, please refer to the <a href=\"[Insert Budget Guidelines Document Link]\">Budget Guidelines Document</a> or contact the Finance Department.</p>\n\n<p>Thank you for ensuring the integrity and efficiency of the budgeting process.</p>\n",
   "message_type": "Markdown",
   "method": null,
   "modified": "2025-06-12 13:58:07.679118",
@@ -1198,7 +1198,7 @@
   "enabled": 1,
   "event": "Submit",
   "is_standard": 0,
-  "message": "<p>Dear {{ doc.employee_name or doc.employee }},</p>\n\n<p>Your <strong>Salary Advance</strong> request <strong>{{ doc.name }}</strong> has been <strong>approved</strong> and submitted.</p>\n\n<table border=\"0\" cellpadding=\"6\" cellspacing=\"0\" style=\"border-collapse:collapse;\">\n  <tr>\n    <td><strong>Request No.</strong></td>\n    <td>{{ doc.name }}</td>\n  </tr>\n  <tr>\n    <td><strong>Posting Date</strong></td>\n    <td>{{ frappe.utils.format_date(doc.posting_date) }}</td>\n  </tr>\n  <tr>\n    <td><strong>Purpose</strong></td>\n    <td>{{ doc.purpose or \"—\" }}</td>\n  </tr>\n  <tr>\n    <td><strong>Advance Amount</strong></td>\n    <td>{{ frappe.utils.fmt_money(doc.advance_amount) }}</td>\n  </tr>\n  {% if doc.repayment_method %}\n  <tr>\n    <td><strong>Repayment Method</strong></td>\n    <td>{{ doc.repayment_method }}</td>\n  </tr>\n  {% endif %}\n  {% if doc.repayment_start_date %}\n  <tr>\n    <td><strong>Repayment Start</strong></td>\n    <td>{{ frappe.utils.format_date(doc.repayment_start_date) }}</td>\n  </tr>\n  {% endif %}\n  {% if doc.repayment_periods %}\n  <tr>\n    <td><strong>No. of Periods</strong></td>\n    <td>{{ doc.repayment_periods }}</td>\n  </tr>\n  {% endif %}\n</table>\n\n<p>You can review the document here: <a href=\"{{ doc.get_url() }}\">{{ doc.get_url() }}</a>.</p>\n\n<p>If you have questions, please contact Payroll/HR.</p>\n\n<p>Regards,<br>Payroll</p>\n",
+  "message": "<p>Dear {{ doc.employee_name or doc.employee }},</p>\n\n<p>Your <strong>Salary Advance</strong> request <strong>{{ doc.name }}</strong> has been <strong>approved</strong> and submitted.</p>\n\n<table border=\"0\" cellpadding=\"6\" cellspacing=\"0\" style=\"border-collapse:collapse;\">\n  <tr>\n    <td><strong>Request No.</strong></td>\n    <td>{{ doc.name }}</td>\n  </tr>\n  <tr>\n    <td><strong>Posting Date</strong></td>\n    <td>{{ frappe.utils.format_date(doc.posting_date) }}</td>\n  </tr>\n  <tr>\n    <td><strong>Purpose</strong></td>\n    <td>{{ doc.purpose or \"\u2014\" }}</td>\n  </tr>\n  <tr>\n    <td><strong>Advance Amount</strong></td>\n    <td>{{ frappe.utils.fmt_money(doc.advance_amount) }}</td>\n  </tr>\n  {% if doc.repayment_method %}\n  <tr>\n    <td><strong>Repayment Method</strong></td>\n    <td>{{ doc.repayment_method }}</td>\n  </tr>\n  {% endif %}\n  {% if doc.repayment_start_date %}\n  <tr>\n    <td><strong>Repayment Start</strong></td>\n    <td>{{ frappe.utils.format_date(doc.repayment_start_date) }}</td>\n  </tr>\n  {% endif %}\n  {% if doc.repayment_periods %}\n  <tr>\n    <td><strong>No. of Periods</strong></td>\n    <td>{{ doc.repayment_periods }}</td>\n  </tr>\n  {% endif %}\n</table>\n\n<p>You can review the document here: <a href=\"{{ doc.get_url() }}\">{{ doc.get_url() }}</a>.</p>\n\n<p>If you have questions, please contact Payroll/HR.</p>\n\n<p>Regards,<br>Payroll</p>\n",
   "message_type": "Markdown",
   "method": null,
   "modified": "2025-09-06 23:12:43.305093",
@@ -1234,7 +1234,7 @@
   "sender_email": null,
   "set_property_after_alert": null,
   "slack_webhook_url": null,
-  "subject": "Salary Advance {{ doc.name }} – Approved",
+  "subject": "Salary Advance {{ doc.name }} \u2013 Approved",
   "value_changed": null
  },
  {
@@ -1315,7 +1315,7 @@
   "sender_email": null,
   "set_property_after_alert": null,
   "slack_webhook_url": null,
-  "subject": "Car Registration Expiry – {{ doc.vehicle_number }}",
+  "subject": "Car Registration Expiry \u2013 {{ doc.vehicle_number }}",
   "value_changed": null
  },
  {
@@ -1366,7 +1366,7 @@
   "sender_email": null,
   "set_property_after_alert": null,
   "slack_webhook_url": null,
-  "subject": "Insurance Expiry Reminder – {{ doc.vehicle_number }}",
+  "subject": "Insurance Expiry Reminder \u2013 {{ doc.vehicle_number }}",
   "value_changed": null
  },
  {
@@ -1499,7 +1499,7 @@
   "sender_email": "noreply@workers.com.zm",
   "set_property_after_alert": "",
   "slack_webhook_url": null,
-  "subject": "Leave Request Rejected – {{ doc.from_date }} to {{ doc.to_date }}",
+  "subject": "Leave Request Rejected \u2013 {{ doc.from_date }} to {{ doc.to_date }}",
   "value_changed": "workflow_state"
  },
  {
@@ -1621,7 +1621,7 @@
   "sender_email": null,
   "set_property_after_alert": null,
   "slack_webhook_url": null,
-  "subject": "Final Confirmation due on {{ frappe.format_value(doc.custom_probation_expiry, {\"fieldtype\":\"Date\"}) }} – {{ doc.employee_name }}",
+  "subject": "Final Confirmation due on {{ frappe.format_value(doc.custom_probation_expiry, {\"fieldtype\":\"Date\"}) }} \u2013 {{ doc.employee_name }}",
   "value_changed": null
  },
  {
@@ -1682,7 +1682,7 @@
   "sender_email": null,
   "set_property_after_alert": null,
   "slack_webhook_url": null,
-  "subject": "Contract ending on {{ frappe.format_value(doc.contract_end_date, {\"fieldtype\":\"Date\"}) }} – {{ doc.employee_name }}",
+  "subject": "Contract ending on {{ frappe.format_value(doc.contract_end_date, {\"fieldtype\":\"Date\"}) }} \u2013 {{ doc.employee_name }}",
   "value_changed": null
  },
  {
@@ -1697,7 +1697,7 @@
   "enabled": 1,
   "event": "Submit",
   "is_standard": 0,
-  "message": "A Journal Entry indicating an asset scrap was submitted.\n\n• Entry: {{ doc.name }}\n• Posting Date: {{ doc.posting_date }}\n• Company: {{ doc.company }}\n• Remarks: {{ (doc.user_remark or doc.remark) or \"-\" }}\n\n{% set url = frappe.utils.get_url_to_form(\"Journal Entry\", doc.name) %}\nView in ERPNext: {{ url }}\n",
+  "message": "A Journal Entry indicating an asset scrap was submitted.\n\n\u2022 Entry: {{ doc.name }}\n\u2022 Posting Date: {{ doc.posting_date }}\n\u2022 Company: {{ doc.company }}\n\u2022 Remarks: {{ (doc.user_remark or doc.remark) or \"-\" }}\n\n{% set url = frappe.utils.get_url_to_form(\"Journal Entry\", doc.name) %}\nView in ERPNext: {{ url }}\n",
   "message_type": "Markdown",
   "method": null,
   "modified": "2025-10-05 23:29:39.706802",
@@ -1760,7 +1760,7 @@
    {
     "bcc": null,
     "cc": null,
-    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Director Finance\"",
+    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Director\u00a0Finance\"",
     "parent": "Email Budget Notification - Purchase Requisition",
     "parentfield": "recipients",
     "parenttype": "Notification",
@@ -1770,7 +1770,7 @@
    {
     "bcc": null,
     "cc": null,
-    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Budget Manager\"",
+    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Budget\u00a0Manager\"",
     "parent": "Email Budget Notification - Purchase Requisition",
     "parentfield": "recipients",
     "parenttype": "Notification",
@@ -1780,7 +1780,7 @@
    {
     "bcc": null,
     "cc": null,
-    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Branch Manager\"",
+    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Branch\u00a0Manager\"",
     "parent": "Email Budget Notification - Purchase Requisition",
     "parentfield": "recipients",
     "parenttype": "Notification",
@@ -1790,7 +1790,7 @@
    {
     "bcc": null,
     "cc": null,
-    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Senior Accountant\"",
+    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Senior\u00a0Accountant\"",
     "parent": "Email Budget Notification - Purchase Requisition",
     "parentfield": "recipients",
     "parenttype": "Notification",
@@ -1800,7 +1800,7 @@
    {
     "bcc": null,
     "cc": null,
-    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Head of Department\"",
+    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Head\u00a0of\u00a0Department\"",
     "parent": "Email Budget Notification - Purchase Requisition",
     "parentfield": "recipients",
     "parenttype": "Notification",
@@ -1810,7 +1810,7 @@
    {
     "bcc": null,
     "cc": null,
-    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Head of Department\"",
+    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Head\u00a0of\u00a0Department\"",
     "parent": "Email Budget Notification - Purchase Requisition",
     "parentfield": "recipients",
     "parenttype": "Notification",
@@ -1820,7 +1820,7 @@
    {
     "bcc": null,
     "cc": null,
-    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Head of Department\"",
+    "condition": "frappe.db.get_value(\"User\", doc.owner, \"role_profile_name\") == \"Head\u00a0of\u00a0Department\"",
     "parent": "Email Budget Notification - Purchase Requisition",
     "parentfield": "recipients",
     "parenttype": "Notification",
@@ -1844,7 +1844,7 @@
   "sender_email": null,
   "set_property_after_alert": null,
   "slack_webhook_url": null,
-  "subject": "{{ doc.name }} - Budget Notification from {{ frappe.utils.get_fullname(doc.owner) }}",
+  "subject": "{{ doc.name }} - Budget Notification from {{ frappe.utils.get_fullname(doc.owner)\u00a0}}",
   "value_changed": null
  },
  {
@@ -1960,7 +1960,7 @@
   "enabled": 1,
   "event": "New",
   "is_standard": 0,
-  "message": "<h3>Budget Created – Procurement Plan Required</h3>\n\n<p>Dear Procurement Team,</p>\n\n<p>A new budget document has been <strong>created and submitted</strong> for the upcoming financial year. You are requested to <strong>prepare the corresponding Procurement Plan</strong> in line with the approved budget allocations for the cost centre indicated below.</p>\n\n<h4>Budget Summary</h4>\n<ul>\n<li><strong>Budget Document:</strong> {{ doc.name }}</li>\n<li><strong>Financial Year:</strong> {{ doc.fiscal_year }}</li>\n<li><strong>Cost Centre:</strong> {{ doc.cost_center }}</li>\n<li><strong>Expense Account:</strong> {{ doc.expense_account }}</li>\n<li><strong>Status:</strong> {{ doc.workflow_state }}</li>\n<li><strong>Created By:</strong> {{ doc.owner }}</li>\n<li><strong>Created On:</strong> {{ doc.creation }}</li>\n</ul>\n\n<h4>Action Required:</h4>\n<ul>\n<li><strong>1. Review Budget Details:</strong> Review the approved or submitted budget to understand planned expenditure and funding allocations.</li>\n<li><strong>2. Prepare Procurement Plan:</strong> Create the procurement plan corresponding to this budget, detailing expected procurements, timelines, and estimated values.</li>\n<li><strong>3. Ensure Alignment:</strong> Verify that all proposed procurements correspond to budgeted accounts and cost centres.</li>\n<li><strong>4. Submit for Approval:</strong> Once completed, submit the procurement plan through the ERP workflow for validation and approval.</li>\n</ul>\n\n<p>You can access the budget document directly below:</p>\n<p><a href=\"/app/budget/{{ doc.name }}\">View Budget Document</a></p>\n\n<p>To initiate the procurement plan creation, click the link below:</p>\n<p><a href=\"/app/procurement-plan/new-procurement-plan?budget={{ doc.name }}\">Create Procurement Plan</a></p>\n\n{% if comments and comments[-1] %}\n<p>Latest note: {{ comments[-1].comment }} by {{ comments[-1].by }}</p>\n{% endif %}\n\n<p>For reference, please consult the <a href=\"[Insert Procurement Guidelines Link]\">Procurement Planning Guidelines</a> or reach out to the Finance Department for clarifications regarding budget details.</p>\n\n<p>Thank you for your prompt action and collaboration in ensuring timely alignment between budgeting and procurement processes.</p>\n\n<p>Best regards,<br>\nFinance Department</p>\n",
+  "message": "<h3>Budget Created \u2013 Procurement Plan Required</h3>\n\n<p>Dear Procurement Team,</p>\n\n<p>A new budget document has been <strong>created and submitted</strong> for the upcoming financial year. You are requested to <strong>prepare the corresponding Procurement Plan</strong> in line with the approved budget allocations for the cost centre indicated below.</p>\n\n<h4>Budget Summary</h4>\n<ul>\n<li><strong>Budget Document:</strong> {{ doc.name }}</li>\n<li><strong>Financial Year:</strong> {{ doc.fiscal_year }}</li>\n<li><strong>Cost Centre:</strong> {{ doc.cost_center }}</li>\n<li><strong>Expense Account:</strong> {{ doc.expense_account }}</li>\n<li><strong>Status:</strong> {{ doc.workflow_state }}</li>\n<li><strong>Created By:</strong> {{ doc.owner }}</li>\n<li><strong>Created On:</strong> {{ doc.creation }}</li>\n</ul>\n\n<h4>Action Required:</h4>\n<ul>\n<li><strong>1. Review Budget Details:</strong> Review the approved or submitted budget to understand planned expenditure and funding allocations.</li>\n<li><strong>2. Prepare Procurement Plan:</strong> Create the procurement plan corresponding to this budget, detailing expected procurements, timelines, and estimated values.</li>\n<li><strong>3. Ensure Alignment:</strong> Verify that all proposed procurements correspond to budgeted accounts and cost centres.</li>\n<li><strong>4. Submit for Approval:</strong> Once completed, submit the procurement plan through the ERP workflow for validation and approval.</li>\n</ul>\n\n<p>You can access the budget document directly below:</p>\n<p><a href=\"/app/budget/{{ doc.name }}\">View Budget Document</a></p>\n\n<p>To initiate the procurement plan creation, click the link below:</p>\n<p><a href=\"/app/procurement-plan/new-procurement-plan?budget={{ doc.name }}\">Create Procurement Plan</a></p>\n\n{% if comments and comments[-1] %}\n<p>Latest note: {{ comments[-1].comment }} by {{ comments[-1].by }}</p>\n{% endif %}\n\n<p>For reference, please consult the <a href=\"[Insert Procurement Guidelines Link]\">Procurement Planning Guidelines</a> or reach out to the Finance Department for clarifications regarding budget details.</p>\n\n<p>Thank you for your prompt action and collaboration in ensuring timely alignment between budgeting and procurement processes.</p>\n\n<p>Best regards,<br>\nFinance Department</p>\n",
   "message_type": "Markdown",
   "method": null,
   "modified": "2025-11-07 06:49:18.471302",
@@ -2097,7 +2097,7 @@
   "method": null,
   "modified": "2025-12-01 12:27:59.284738",
   "module": null,
-  "name": "Job Requisition Approved – Create Staffing Plan",
+  "name": "Job Requisition Approved \u2013 Create Staffing Plan",
   "print_format": null,
   "property_value": null,
   "recipients": [
@@ -2105,7 +2105,7 @@
     "bcc": null,
     "cc": null,
     "condition": "doc.workflow_state == \"Approved\"",
-    "parent": "Job Requisition Approved – Create Staffing Plan",
+    "parent": "Job Requisition Approved \u2013 Create Staffing Plan",
     "parentfield": "recipients",
     "parenttype": "Notification",
     "receiver_by_document_field": null,
@@ -2118,7 +2118,7 @@
   "sender_email": null,
   "set_property_after_alert": null,
   "slack_webhook_url": null,
-  "subject": "Job Requisition {{ doc.name }} Approved – Staffing Plan Required",
+  "subject": "Job Requisition {{ doc.name }} Approved \u2013 Staffing Plan Required",
   "value_changed": "workflow_state"
  },
  {
@@ -2189,7 +2189,7 @@
   "sender_email": null,
   "set_property_after_alert": null,
   "slack_webhook_url": null,
-  "subject": "Staffing Plan requires your attention – {{ doc.name }}",
+  "subject": "Staffing Plan requires your attention \u2013 {{ doc.name }}",
   "value_changed": "workflow_state"
  },
  {
