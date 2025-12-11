@@ -1,0 +1,660 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-08-20 07:11:19.815154",
+  "name": "Return",
+  "workflow_action_name": "Return"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-09-12 12:17:50.762706",
+  "name": "Open for Edit",
+  "workflow_action_name": "Open for Edit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-15 08:28:42.201550",
+  "name": "Send to FIC",
+  "workflow_action_name": "Send to FIC"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-20 16:49:30.619531",
+  "name": "FIC Review",
+  "workflow_action_name": "FIC Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-20 16:54:33.416691",
+  "name": "Send to Director Finance",
+  "workflow_action_name": "Send to Director Finance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-21 13:11:30.993714",
+  "name": "Submit for DHRA",
+  "workflow_action_name": "Submit for DHRA"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-21 13:12:06.178052",
+  "name": "Forward to DF",
+  "workflow_action_name": "Forward to DF"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 12:13:56.209068",
+  "name": "Forward to DF (Final Approval)",
+  "workflow_action_name": "Forward to DF (Final Approval)"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-05 13:01:34.557774",
+  "name": "Approve Externally",
+  "workflow_action_name": "Approve Externally"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-14 12:45:43.282211",
+  "name": "Submit for Audit Review",
+  "workflow_action_name": "Submit for Audit Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-14 12:46:37.054905",
+  "name": "Submit to Supervisor",
+  "workflow_action_name": "Submit to Supervisor"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-14 12:48:01.468680",
+  "name": "Submit to Director",
+  "workflow_action_name": "Submit to Director"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-14 12:48:38.177942",
+  "name": "Approve Audit",
+  "workflow_action_name": "Approve Audit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-14 12:53:12.201503",
+  "name": "Reject Audit",
+  "workflow_action_name": "Reject Audit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-16 14:14:35.515320",
+  "name": "Approved",
+  "workflow_action_name": "Approved"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-16 19:38:20.059588",
+  "name": "Forward to Procurement Manager",
+  "workflow_action_name": "Forward to Procurement Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-16 19:39:04.699449",
+  "name": "Pending Procurement Manager",
+  "workflow_action_name": "Pending Procurement Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-20 09:34:28.665737",
+  "name": "Submit (Stores Request)",
+  "workflow_action_name": "Submit (Stores Request)"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-20 09:34:42.808630",
+  "name": "Submit (Purchase)",
+  "workflow_action_name": "Submit (Purchase)"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-21 14:47:04.133153",
+  "name": "Reopen",
+  "workflow_action_name": "Reopen"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-26 10:07:42.875520",
+  "name": "Approve & Submit",
+  "workflow_action_name": "Approve & Submit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-26 15:26:35.378247",
+  "name": "Send to Budget Committee Representative",
+  "workflow_action_name": "Send to Budget Committee Representative"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-27 08:42:24.190480",
+  "name": "Submit GRN",
+  "workflow_action_name": "Submit GRN"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-02 10:11:02.339918",
+  "name": "Send to Hr Manager",
+  "workflow_action_name": "Send to Hr Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-02 16:56:43.107605",
+  "name": "Submit to Procurement HOD",
+  "workflow_action_name": "Submit to Procurement HOD"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 10:20:56.415746",
+  "name": "Submit to HR SNR PLAN",
+  "workflow_action_name": "Submit to HR SNR PLAN"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 10:23:11.567785",
+  "name": "Submit to DHRA",
+  "workflow_action_name": "Submit to DHRA"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 11:47:16.762801",
+  "name": "Submit Direct to Director",
+  "workflow_action_name": "Submit Direct to Director"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 11:51:59.777794",
+  "name": "Forward to Director",
+  "workflow_action_name": "Forward to Director"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 16:06:01.724116",
+  "name": "Submit to HR Manager",
+  "workflow_action_name": "Submit to HR Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 16:06:33.024466",
+  "name": "Forward to DHRA",
+  "workflow_action_name": "Forward to DHRA"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-04 09:26:45.035336",
+  "name": "Send to Director",
+  "workflow_action_name": "Send to Director"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-04 09:31:41.845393",
+  "name": "Send to DHR",
+  "workflow_action_name": "Send to DHR"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-04 16:25:26.740910",
+  "name": "Send Back to HR Manager",
+  "workflow_action_name": "Send Back to HR Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-07 16:03:18.653587",
+  "name": "Consolidate",
+  "workflow_action_name": "Consolidate"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-10 09:20:38.423530",
+  "name": "Send for Budget Check",
+  "workflow_action_name": "Send for Budget Check"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-10 09:21:10.318245",
+  "name": "Pass Budget Check",
+  "workflow_action_name": "Pass Budget Check"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-10 12:49:08.384412",
+  "name": "Submit Consolidated Budget",
+  "workflow_action_name": "Submit Consolidated Budget"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-15 08:29:02.648049",
+  "name": "Send to DF Final Approval",
+  "workflow_action_name": "Send to DF Final Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-20 16:54:15.111490",
+  "name": "Send to HOD Review",
+  "workflow_action_name": "Send to HOD Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-20 16:54:24.447161",
+  "name": "Send to Budget Manager",
+  "workflow_action_name": "Send to Budget Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-20 16:59:45.438602",
+  "name": "Send to FIC Review",
+  "workflow_action_name": "Send to FIC Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-23 11:05:22.348358",
+  "name": "Send to Line Director",
+  "workflow_action_name": "Send to Line Director"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 11:59:03.043162",
+  "name": "Send to Budget Manager (HOD Review)",
+  "workflow_action_name": "Send to Budget Manager (HOD Review)"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 12:07:36.316039",
+  "name": "Forward to Budget Committee",
+  "workflow_action_name": "Forward to Budget Committee"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 12:11:27.512960",
+  "name": "Forward to Budget Manager",
+  "workflow_action_name": "Forward to Budget Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-05 13:01:16.103061",
+  "name": "Approve Request",
+  "workflow_action_name": "Approve Request"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-05 13:01:25.342844",
+  "name": "Reject Request",
+  "workflow_action_name": "Reject Request"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-05 13:01:42.531974",
+  "name": "Reject Externally",
+  "workflow_action_name": "Reject Externally"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-14 14:59:56.713775",
+  "name": "Submit for Review",
+  "workflow_action_name": "Submit for Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-21 13:13:11.827362",
+  "name": "Submit to Senior Accountant",
+  "workflow_action_name": "Submit to Senior Accountant"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-26 10:08:45.685885",
+  "name": "Return to MBBO",
+  "workflow_action_name": "Return to MBBO"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-26 11:41:15.938513",
+  "name": "Return to MBBO for Amendments",
+  "workflow_action_name": "Return to MBBO for Amendments"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-26 14:33:51.965777",
+  "name": "Forward to Budget Committee Representative",
+  "workflow_action_name": "Forward to Budget Committee Representative"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 10:03:14.477013",
+  "name": "Submit for First Line Audit",
+  "workflow_action_name": "Submit for First Line Audit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 10:05:52.879994",
+  "name": "Forward for FM Approval",
+  "workflow_action_name": "Forward for FM Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 11:46:56.125857",
+  "name": "Submit for Manager Review",
+  "workflow_action_name": "Submit for Manager Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 16:08:42.873743",
+  "name": "Forward to Commissioner",
+  "workflow_action_name": "Forward to Commissioner"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-04 09:25:53.974175",
+  "name": "Send Back",
+  "workflow_action_name": "Send Back"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-07 16:00:40.386582",
+  "name": "Save To Consolidate",
+  "workflow_action_name": "Save To Consolidate"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-07 16:30:06.658472",
+  "name": "Complete Review",
+  "workflow_action_name": "Complete Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-15 08:29:10.696731",
+  "name": "Send to Board",
+  "workflow_action_name": "Send to Board"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-15 08:29:47.897287",
+  "name": "Return to BM",
+  "workflow_action_name": "Return to BM"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-20 16:57:13.027609",
+  "name": "Return to Draft",
+  "workflow_action_name": "Return to Draft"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 11:58:39.720947",
+  "name": "Send to HOD",
+  "workflow_action_name": "Send to HOD"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-15 12:53:43.776183",
+  "name": "Send to Procurement Manager",
+  "workflow_action_name": "Send to Procurement Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-15 12:58:51.665307",
+  "name": "Approve GRN",
+  "workflow_action_name": "Approve GRN"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-16 14:12:52.371241",
+  "name": "Submit to HOD",
+  "workflow_action_name": "Submit to HOD"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-16 19:37:06.666912",
+  "name": "Submit to Procurement Officer",
+  "workflow_action_name": "Submit to Procurement Officer"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 10:03:44.388044",
+  "name": "Submit to Second Line Audit",
+  "workflow_action_name": "Submit to Second Line Audit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 10:07:20.268358",
+  "name": "Forward for DF Approval",
+  "workflow_action_name": "Forward for DF Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-04 09:27:58.558632",
+  "name": "Send Back to Planner",
+  "workflow_action_name": "Send Back to Planner"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-04 16:10:05.862414",
+  "name": "Foward to HR Manager",
+  "workflow_action_name": "Foward to HR Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 12:02:38.283823",
+  "name": "Forward to FIC Review",
+  "workflow_action_name": "Forward to FIC Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-05 12:59:52.756125",
+  "name": "Submit for Internal Review",
+  "workflow_action_name": "Submit for Internal Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-26 11:40:36.252105",
+  "name": "Forward to MBBO",
+  "workflow_action_name": "Forward to MBBO"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-15 08:28:50.927276",
+  "name": "Return to BM for Amendments",
+  "workflow_action_name": "Return to BM for Amendments"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-21 13:18:40.245485",
+  "name": "Submit for Director HRA",
+  "workflow_action_name": "Submit for Director HRA"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 12:20:48.095891",
+  "name": "Forward to Board",
+  "workflow_action_name": "Forward to Board"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-03 10:08:45.678135",
+  "name": "Approve Payment",
+  "workflow_action_name": "Approve Payment"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-15 08:29:18.529112",
+  "name": "Approve and Submit",
+  "workflow_action_name": "Approve and Submit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 11:59:23.303579",
+  "name": "Forward to Line Director",
+  "workflow_action_name": "Forward to Line Director"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 12:04:19.352350",
+  "name": "Forward to DF Final Approval",
+  "workflow_action_name": "Forward to DF Final Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 12:10:54.426115",
+  "name": "Forward to HOD",
+  "workflow_action_name": "Forward to HOD"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-12-02 10:52:01.365902",
+  "name": "Submit",
+  "workflow_action_name": "Submit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-20 16:53:59.589686",
+  "name": "Send to Senior Accountant",
+  "workflow_action_name": "Send to Senior Accountant"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-22 09:02:05.624359",
+  "name": "Submit for External Approval",
+  "workflow_action_name": "Submit for External Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-20 16:56:34.038770",
+  "name": "Send to Budget Committee",
+  "workflow_action_name": "Send to Budget Committee"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 12:10:42.980519",
+  "name": "Forward to Senior Accountant",
+  "workflow_action_name": "Forward to Senior Accountant"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-10-28 11:59:50.392705",
+  "name": "Forward to Director Finance",
+  "workflow_action_name": "Forward to Director Finance"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-11-20 14:51:14.963138",
+  "name": "Reject to Draft",
+  "workflow_action_name": "Reject to Draft"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-01-20 17:33:37.767532",
+  "name": "Review",
+  "workflow_action_name": "Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-01-20 17:33:37.766523",
+  "name": "Reject",
+  "workflow_action_name": "Reject"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2025-01-20 17:33:37.764653",
+  "name": "Approve",
+  "workflow_action_name": "Approve"
+ }
+]

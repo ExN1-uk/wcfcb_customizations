@@ -1,0 +1,695 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-09-12 12:15:56.546199",
+  "name": "Open for Edits",
+  "style": "",
+  "workflow_state_name": "Open for Edits"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-21 13:02:15.183798",
+  "name": "Pending DHRA",
+  "style": "",
+  "workflow_state_name": "Pending DHRA"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-14 12:43:13.298561",
+  "name": "Pending Director Approval",
+  "style": "",
+  "workflow_state_name": "Pending Director Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-14 14:55:20.869779",
+  "name": "Procurement Manager",
+  "style": "",
+  "workflow_state_name": "Procurement Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-16 20:20:16.142717",
+  "name": "Pending MHRA/DHRA Review",
+  "style": "",
+  "workflow_state_name": "Pending MHRA/DHRA Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-21 14:08:33.365103",
+  "name": "Pending Senior Accountant Review",
+  "style": "",
+  "workflow_state_name": "Pending Senior Accountant Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-26 09:58:50.054862",
+  "name": "Budget Committee Review",
+  "style": "",
+  "workflow_state_name": "Budget Committee Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-26 14:10:59.422636",
+  "name": "Stores Officer Review",
+  "style": "",
+  "workflow_state_name": "Stores Officer Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-26 15:23:01.123078",
+  "name": "Budget Committee Representative",
+  "style": "",
+  "workflow_state_name": "Budget Committee Representative"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-26 16:56:39.212210",
+  "name": "Pending Manager Approval",
+  "style": "",
+  "workflow_state_name": "Pending Manager Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-28 13:15:04.807251",
+  "name": "Plan Approved",
+  "style": "",
+  "workflow_state_name": "Plan Approved"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-28 13:16:04.122934",
+  "name": "Manager Approved",
+  "style": "",
+  "workflow_state_name": "Manager Approved"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-02 14:34:15.634535",
+  "name": "Submitted",
+  "style": "",
+  "workflow_state_name": "Submitted"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-03 10:02:05.339760",
+  "name": "DF Approval smaller or equal to N$50k",
+  "style": "",
+  "workflow_state_name": "DF Approval smaller or equal to N$50k"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-03 11:44:15.915344",
+  "name": "Manager Review",
+  "style": "",
+  "workflow_state_name": "Manager Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-03 11:48:48.801930",
+  "name": "Forward to Director",
+  "style": "",
+  "workflow_state_name": "Forward to Director"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-03 16:03:45.138792",
+  "name": "HR Manager Review",
+  "style": "",
+  "workflow_state_name": "HR Manager Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-03 16:04:05.652694",
+  "name": "DHRA Review",
+  "style": "",
+  "workflow_state_name": "DHRA Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-04 18:04:03.069238",
+  "name": "Reject",
+  "style": "",
+  "workflow_state_name": "Reject"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-07 16:35:07.885925",
+  "name": "Pending – Senior Accountant",
+  "style": "",
+  "workflow_state_name": "Pending – Senior Accountant"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-10 09:20:09.498092",
+  "name": "Budget Check",
+  "style": "",
+  "workflow_state_name": "Budget Check"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-21 14:56:27.211357",
+  "name": "Procurement Officer Review",
+  "style": "",
+  "workflow_state_name": "Procurement Officer Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-02 10:49:11.817236",
+  "name": "HR Review",
+  "style": "",
+  "workflow_state_name": "HR Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-02 10:49:45.405548",
+  "name": "CEO Review",
+  "style": "",
+  "workflow_state_name": "CEO Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-07 15:48:41.291660",
+  "name": "MBBO Review",
+  "style": "",
+  "workflow_state_name": "MBBO Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-14 12:18:23.792806",
+  "name": "Pending Supervisor Approval",
+  "style": "",
+  "workflow_state_name": "Pending Supervisor Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-20 09:31:31.233510",
+  "name": "Pending Procurement",
+  "style": "",
+  "workflow_state_name": "Pending Procurement"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-26 14:28:26.216416",
+  "name": "Budget Committee Representative Review",
+  "style": "",
+  "workflow_state_name": "Budget Committee Representative Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-28 13:29:44.829310",
+  "name": "Planner Approval",
+  "style": "",
+  "workflow_state_name": "Planner Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-07 16:53:50.844842",
+  "name": "Pending MBBO Consolidation",
+  "style": "",
+  "workflow_state_name": "Pending MBBO Consolidation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-08 08:21:05.678243",
+  "name": "Budget Manager Consolidation",
+  "style": "",
+  "workflow_state_name": "Budget Manager Consolidation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-28 13:29:08.241318",
+  "name": "DHRA Approval",
+  "style": "",
+  "workflow_state_name": "DHRA Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-03 16:04:25.176742",
+  "name": "Commissioner Review",
+  "style": "",
+  "workflow_state_name": "Commissioner Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-10 13:37:50.677394",
+  "name": "Assitant Manager Approva",
+  "style": "",
+  "workflow_state_name": "Assitant Manager Approva"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-21 13:26:36.344697",
+  "name": "Pending Senior Accountant",
+  "style": "",
+  "workflow_state_name": "Pending Senior Accountant"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-16 11:58:18.704495",
+  "name": "Director Approval",
+  "style": "",
+  "workflow_state_name": "Director Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-14 14:55:40.990896",
+  "name": "Procurement Manager Approval",
+  "style": "",
+  "workflow_state_name": "Procurement Manager Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-16 19:34:43.865095",
+  "name": "Pending Procurement Officer",
+  "style": "",
+  "workflow_state_name": "Pending Procurement Officer"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-16 20:21:10.110559",
+  "name": "Pending Commissioner Approval",
+  "style": "",
+  "workflow_state_name": "Pending Commissioner Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-21 13:07:24.948970",
+  "name": "Pending Finance Manager",
+  "style": "",
+  "workflow_state_name": "Pending Finance Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-28 13:30:14.977784",
+  "name": "Manager Approval",
+  "style": "",
+  "workflow_state_name": "Manager Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-03 09:59:57.569310",
+  "name": "First Line Audit Review",
+  "style": "",
+  "workflow_state_name": "First Line Audit Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-03 10:04:33.309049",
+  "name": "DF Approval greater or equal to N$50k",
+  "style": "",
+  "workflow_state_name": "DF Approval greater or equal to N$50k"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-07 16:26:59.574405",
+  "name": "Pending – MBBO Review",
+  "style": "",
+  "workflow_state_name": "Pending – MBBO Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-03 10:01:09.572778",
+  "name": "FM Approval smaller than N$50k",
+  "style": "",
+  "workflow_state_name": "FM Approval smaller than N$50k"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-31 10:47:24.386752",
+  "name": "Budget Manager Review",
+  "style": "",
+  "workflow_state_name": "Budget Manager Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-16 14:10:11.443870",
+  "name": "Pending Line Director",
+  "style": "",
+  "workflow_state_name": "Pending Line Director"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-01 11:40:13.778310",
+  "name": "Rejected to Manager",
+  "style": "",
+  "workflow_state_name": "Rejected to Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-16 14:09:26.593792",
+  "name": "Pending HOD Approval",
+  "style": "",
+  "workflow_state_name": "Pending HOD Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-05 14:09:22.631031",
+  "name": "Assistant Manager Approval",
+  "style": "",
+  "workflow_state_name": "Assistant Manager Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-03 10:00:24.943577",
+  "name": "Second Line Audit Review",
+  "style": "",
+  "workflow_state_name": "Second Line Audit Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-02 10:48:47.002202",
+  "name": "Functional Director Review",
+  "style": "",
+  "workflow_state_name": "Functional Director Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-09-04 09:40:39.892518",
+  "name": "HR Manager Approval",
+  "style": "",
+  "workflow_state_name": "HR Manager Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-21 13:12:30.975952",
+  "name": "Pending DF",
+  "style": "",
+  "workflow_state_name": "Pending DF"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-11-16 14:11:18.513344",
+  "name": "Pending Procurement Manager",
+  "style": "",
+  "workflow_state_name": "Pending Procurement Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-15 08:11:25.535782",
+  "name": "Rejected by Board",
+  "style": "",
+  "workflow_state_name": "Rejected by Board"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-01 11:23:50.791196",
+  "name": "Rejected to Draft",
+  "style": "",
+  "workflow_state_name": "Rejected to Draft"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-21 10:32:40.534345",
+  "name": "External Approval",
+  "style": "Info",
+  "workflow_state_name": "External Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-12-03 11:45:45.737133",
+  "name": "Director Review",
+  "style": "",
+  "workflow_state_name": "Director Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-21 13:17:26.763199",
+  "name": "Pending Director HRA",
+  "style": "",
+  "workflow_state_name": "Pending Director HRA"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-15 08:10:18.772406",
+  "name": "BM Amendment Round 2",
+  "style": "",
+  "workflow_state_name": "BM Amendment Round 2"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-15 08:10:44.884455",
+  "name": "DF Final Approval",
+  "style": "",
+  "workflow_state_name": "DF Final Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-15 08:11:02.378060",
+  "name": "Board Approval",
+  "style": "",
+  "workflow_state_name": "Board Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-14 21:07:06.200279",
+  "name": "FIC Review",
+  "style": "",
+  "workflow_state_name": "FIC Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-09-04 09:40:55.691559",
+  "name": "Senior Accountant Approval",
+  "style": "",
+  "workflow_state_name": "Senior Accountant Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-09-04 09:41:14.461039",
+  "name": "Manager Finance Approval",
+  "style": "",
+  "workflow_state_name": "Manager Finance Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-15 12:09:44.632590",
+  "name": "Requires Commissioner",
+  "style": "",
+  "workflow_state_name": "Requires Commissioner"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-10-23 11:03:03.292119",
+  "name": "Line Director Review",
+  "style": "",
+  "workflow_state_name": "Line Director Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-07-13 12:19:50.251799",
+  "name": "HOD Review",
+  "style": "",
+  "workflow_state_name": "HOD Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-06-02 01:22:59.153665",
+  "name": "Budget Committee",
+  "style": "",
+  "workflow_state_name": "Budget Committee"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-07-13 12:22:15.677489",
+  "name": "DF Review",
+  "style": "",
+  "workflow_state_name": "DF Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-04-17 10:09:56.209598",
+  "name": "Under Review",
+  "style": "",
+  "workflow_state_name": "Under Review"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-06-02 00:57:59.227400",
+  "name": "Requires DHR",
+  "style": "",
+  "workflow_state_name": "Requires DHR"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "remove",
+  "modified": "2025-01-20 17:33:37.736136",
+  "name": "Rejected",
+  "style": "Danger",
+  "workflow_state_name": "Rejected"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2025-01-28 11:28:01.763696",
+  "name": "Draft",
+  "style": "",
+  "workflow_state_name": "Draft"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "question-sign",
+  "modified": "2025-01-20 17:33:37.728344",
+  "name": "Pending",
+  "style": "",
+  "workflow_state_name": "Pending"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "ok-sign",
+  "modified": "2025-01-20 17:33:37.733612",
+  "name": "Approved",
+  "style": "Success",
+  "workflow_state_name": "Approved"
+ }
+]

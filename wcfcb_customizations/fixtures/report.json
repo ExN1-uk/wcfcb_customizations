@@ -1,0 +1,1490 @@
+[
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-04-09 12:38:30.105291",
+  "module": "WCFCB ZM",
+  "name": "NHIMA Report",
+  "prepared_report": 0,
+  "query": "SELECT DISTINCT \n    emp.bank_ac_no AS 'Employer Account Number::130',\n    DATE_FORMAT(ss.end_date, '%%Y') AS 'Year::110',\n    DATE_FORMAT(ss.end_date, '%%M') AS 'Month::110',\n    emp.custom_nhima_member_id AS 'Nhima Member ID::130',\n    emp.wcfcbzm_nrc_no AS 'NRC Number::130',\n    emp.last_name AS 'Surname::120',\n    emp.first_name AS 'First Name::120',\n    emp.date_of_birth AS 'Date of Birth::120',\n    sd.amount AS 'Basic Pay::120'\nFROM\n    `tabEmployee` emp\nJOIN\n    `tabSalary Slip` ss ON emp.name = ss.employee\nLEFT JOIN\n    `tabSalary Detail` sd ON ss.name = sd.parent \n        AND sd.salary_component = 'Basic Pay'\n",
+  "ref_doctype": "Employee",
+  "reference_report": null,
+  "report_name": "NHIMA Report",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "NHIMA Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "HR User"
+   },
+   {
+    "parent": "NHIMA Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "HR Manager"
+   },
+   {
+    "parent": "NHIMA Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Employee"
+   },
+   {
+    "parent": "NHIMA Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Employee Self Service"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[[\"Asset\",\"status\",\"!=\",\"Draft\",false],[\"Asset\",\"asset_category\",\"=\",\"Land and Buildings\"]],\"fields\":[[\"name\",\"Asset\"],[\"docstatus\",\"Asset\"],[\"asset_name\",\"Asset\"],[\"item_code\",\"Asset\"],[\"asset_category\",\"Asset\"],[\"location\",\"Asset\"],[\"status\",\"Asset\"]],\"order_by\":\"`tabAsset`.`modified` desc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"name\":120,\"asset_name\":292,\"item_code\":120,\"asset_category\":120,\"location\":120,\"status\":120},\"group_by\":null}",
+  "letter_head": "WCFCB",
+  "modified": "2025-04-14 11:45:16.928014",
+  "module": "Assets",
+  "name": "Active Properties",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Asset",
+  "reference_report": null,
+  "report_name": "Active Properties",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "Active Properties",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Senior Accountant"
+   },
+   {
+    "parent": "Active Properties",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Quality Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 1,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-11-15 09:09:23.282488",
+  "module": "Accounts",
+  "name": "Budget vs Actual",
+  "prepared_report": 0,
+  "query": "WITH \r\nActualExpenses AS (\r\n    SELECT \r\n        gl.account,\r\n        gl.cost_center,\r\n        gl.project,\r\n        SUM(gl.debit) AS actual_expenses\r\n    FROM `tabGL Entry` gl\r\n    WHERE gl.docstatus = 1\r\n    GROUP BY gl.account, gl.cost_center, gl.project\r\n),\r\nMRCommitments AS (\r\n    SELECT \r\n        mri.expense_account AS account,\r\n        mri.cost_center,\r\n        mri.project,\r\n        SUM(mri.amount) AS mr_commitments\r\n    FROM `tabMaterial Request Item` mri\r\n    JOIN `tabMaterial Request` mr ON mr.name = mri.parent\r\n    WHERE mr.status = 'Pending' AND mr.docstatus = 1\r\n    GROUP BY mri.expense_account, mri.cost_center, mri.project\r\n),\r\nPOCommitments AS (\r\n    SELECT \r\n        poi.expense_account AS account,\r\n        poi.cost_center,\r\n        poi.project,\r\n        SUM(poi.base_amount) AS po_commitments\r\n    FROM `tabPurchase Order Item` poi\r\n    JOIN `tabPurchase Order` po ON po.name = poi.parent\r\n    WHERE po.status NOT IN ('Completed', 'Cancelled', 'Closed') AND po.docstatus = 1\r\n    GROUP BY poi.expense_account, poi.cost_center, poi.project\r\n)\r\nSELECT \r\n    b.name AS \"Budget\",\r\n    b.cost_center AS \"Cost Center\",\r\n    cc.cost_center_name AS \"Cost Center Name\",\r\n    b.project AS \"Project\",\r\n    p.project_name AS \"Project Name\",\r\n    ba.account AS \"Expense Account\",\r\n    acc.account_name AS \"Account Name\",\r\n    SUM(ba.budget_amount) AS \"Budget Amount\",\r\n    IFNULL(ae.actual_expenses, 0) AS \"Actual Expenses\",\r\n    IFNULL(mrc.mr_commitments, 0) AS \"MR Commitments\",\r\n    IFNULL(poc.po_commitments, 0) AS \"PO Commitments\",\r\n    (SUM(ba.budget_amount) - IFNULL(ae.actual_expenses, 0) - IFNULL(mrc.mr_commitments, 0) - IFNULL(poc.po_commitments, 0)) AS \"Available Budget\",\r\n    CASE \r\n        WHEN SUM(ba.budget_amount) = 0 THEN 0\r\n        ELSE ROUND(\r\n            (SUM(ba.budget_amount) - IFNULL(ae.actual_expenses, 0) - IFNULL(mrc.mr_commitments, 0) - IFNULL(poc.po_commitments, 0)) / \r\n            SUM(ba.budget_amount) * 100, \r\n            2\r\n        )\r\n    END AS \"Budget Left %%\"\r\nFROM `tabBudget` b\r\nJOIN `tabBudget Account` ba ON ba.parent = b.name\r\nJOIN `tabAccount` acc ON ba.account = acc.name\r\nLEFT JOIN `tabCost Center` cc ON b.cost_center = cc.name\r\nLEFT JOIN `tabProject` p ON b.project = p.name\r\nLEFT JOIN ActualExpenses ae ON ae.account = ba.account AND ae.cost_center = b.cost_center AND (ae.project = b.project OR (ae.project IS NULL AND b.project IS NULL))\r\nLEFT JOIN MRCommitments mrc ON mrc.account = ba.account AND mrc.cost_center = b.cost_center AND (mrc.project = b.project OR (mrc.project IS NULL AND b.project IS NULL))\r\nLEFT JOIN POCommitments poc ON poc.account = ba.account AND poc.cost_center = b.cost_center AND (poc.project = b.project OR (poc.project IS NULL AND b.project IS NULL))\r\nWHERE b.docstatus = 1\r\nGROUP BY b.name, b.cost_center, cc.cost_center_name, b.project, p.project_name, ba.account, acc.account_name\r\nORDER BY b.cost_center, b.project, ba.account;",
+  "ref_doctype": "Budget",
+  "reference_report": null,
+  "report_name": "Budget vs Actual",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Budget vs Actual",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[[\"Material Request\",\"custom_emergency\",\"=\",1,false]],\"fields\":[[\"workflow_state\",\"Material Request\"],[\"name\",\"Material Request\"],[\"docstatus\",\"Material Request\"],[\"title\",\"Material Request\"],[\"material_request_type\",\"Material Request\"],[\"company\",\"Material Request\"],[\"schedule_date\",\"Material Request\"],[\"set_warehouse\",\"Material Request\"],[\"status\",\"Material Request\"],[\"per_ordered\",\"Material Request\"],[\"per_received\",\"Material Request\"],[\"transfer_status\",\"Material Request\"]],\"order_by\":\"`tabMaterial Request`.`modified` desc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"workflow_state\":120,\"name\":120,\"title\":120,\"material_request_type\":120,\"company\":150,\"schedule_date\":120,\"set_warehouse\":120,\"status\":100,\"per_ordered\":120,\"per_received\":120,\"transfer_status\":120},\"group_by\":null}",
+  "letter_head": "WCFCB",
+  "modified": "2025-10-08 10:20:04.154579",
+  "module": "Stock",
+  "name": "Emergency Requisitions",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Material Request",
+  "reference_report": null,
+  "report_name": "Emergency Requisitions",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Purchase User"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Purchase Manager"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Stock User"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Stock Manager"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC PROC OFF SRV DELI"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC MGR PROC SUP"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC ASS MGR PROC SUP"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC PROC OFF WORKS"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "test end user"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "procurement Line Director"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Procurement Line HOD"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Employee Self Service"
+   },
+   {
+    "parent": "Emergency Requisitions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC ICT DOC"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [
+   {
+    "default": null,
+    "fieldname": "fiscal_year",
+    "fieldtype": "Link",
+    "label": "Fiscal Year",
+    "mandatory": 0,
+    "options": "Fiscal Year",
+    "parent": "Investment Income Dashboard",
+    "parentfield": "filters",
+    "parenttype": "Report",
+    "wildcard_filter": 0
+   },
+   {
+    "default": null,
+    "fieldname": "fund",
+    "fieldtype": "Link",
+    "label": "Fund",
+    "mandatory": 0,
+    "options": "WCFCBFund",
+    "parent": "Investment Income Dashboard",
+    "parentfield": "filters",
+    "parenttype": "Report",
+    "wildcard_filter": 0
+   },
+   {
+    "default": null,
+    "fieldname": "income_type",
+    "fieldtype": "Select",
+    "label": "Income Type",
+    "mandatory": 0,
+    "options": "\nInterest Income\nDividend Income\nFV Gain - Financial\nFV Gain - Property",
+    "parent": "Investment Income Dashboard",
+    "parentfield": "filters",
+    "parenttype": "Report",
+    "wildcard_filter": 0
+   },
+   {
+    "default": null,
+    "fieldname": "status",
+    "fieldtype": "Select",
+    "label": "Status",
+    "mandatory": 0,
+    "options": "\nDraft\nProject Created\nBudget Created\nActuals Entered\nJournal Posted",
+    "parent": "Investment Income Dashboard",
+    "parentfield": "filters",
+    "parenttype": "Report",
+    "wildcard_filter": 0
+   }
+  ],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-06 01:03:38.225804",
+  "module": "Assets",
+  "name": "Investment Income Dashboard",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Investment Income Forecast",
+  "reference_report": null,
+  "report_name": "Investment Income Dashboard",
+  "report_script": "\ndef execute(filters=None):\n    columns = get_columns()\n    data = get_data(filters)\n    chart = get_chart(data)\n    summary = get_summary(data)\n    return columns, data, None, chart, summary\n\ndef get_columns():\n    return [\n        {\"fieldname\": \"name\", \"label\": \"Forecast\", \"fieldtype\": \"Link\", \"options\": \"Investment Income Forecast\", \"width\": 140},\n        {\"fieldname\": \"fund\", \"label\": \"Fund\", \"fieldtype\": \"Link\", \"options\": \"WCFCBFund\", \"width\": 120},\n        {\"fieldname\": \"asset_name\", \"label\": \"Asset\", \"fieldtype\": \"Data\", \"width\": 180},\n        {\"fieldname\": \"institution\", \"label\": \"Institution\", \"fieldtype\": \"Data\", \"width\": 150},\n        {\"fieldname\": \"income_type\", \"label\": \"Income Type\", \"fieldtype\": \"Data\", \"width\": 130},\n        {\"fieldname\": \"total_budget\", \"label\": \"Total Budget\", \"fieldtype\": \"Currency\", \"width\": 130},\n        {\"fieldname\": \"total_actual\", \"label\": \"Total Actual\", \"fieldtype\": \"Currency\", \"width\": 130},\n        {\"fieldname\": \"total_variance\", \"label\": \"Variance\", \"fieldtype\": \"Currency\", \"width\": 120},\n        {\"fieldname\": \"variance_percentage\", \"label\": \"Variance %\", \"fieldtype\": \"Percent\", \"width\": 100},\n        {\"fieldname\": \"status\", \"label\": \"Status\", \"fieldtype\": \"Data\", \"width\": 120},\n        {\"fieldname\": \"project\", \"label\": \"Project\", \"fieldtype\": \"Link\", \"options\": \"Project\", \"width\": 120},\n        {\"fieldname\": \"budget\", \"label\": \"Budget\", \"fieldtype\": \"Link\", \"options\": \"Budget\", \"width\": 100}\n    ]\n\ndef get_data(filters):\n    conditions = []\n    if filters.get(\"fiscal_year\"):\n        conditions.append([\"fiscal_year\", \"=\", filters.get(\"fiscal_year\")])\n    if filters.get(\"fund\"):\n        conditions.append([\"fund\", \"=\", filters.get(\"fund\")])\n    if filters.get(\"income_type\"):\n        conditions.append([\"income_type\", \"=\", filters.get(\"income_type\")])\n    if filters.get(\"status\"):\n        conditions.append([\"status\", \"=\", filters.get(\"status\")])\n    \n    data = frappe.get_all(\n        \"Investment Income Forecast\",\n        filters=conditions,\n        fields=[\"name\", \"fund\", \"asset_name\", \"institution\", \"income_type\", \n                \"total_budget\", \"total_actual\", \"total_variance\", \"variance_percentage\",\n                \"status\", \"project\", \"budget\", \"fiscal_year\"],\n        order_by=\"fund, income_type, asset_name\"\n    )\n    return data\n\ndef get_chart(data):\n    if not data:\n        return None\n    \n    income_types = {}\n    for row in data:\n        it = row.get(\"income_type\") or \"Other\"\n        if it not in income_types:\n            income_types[it] = {\"budget\": 0, \"actual\": 0}\n        income_types[it][\"budget\"] = income_types[it][\"budget\"] + (row.get(\"total_budget\") or 0)\n        income_types[it][\"actual\"] = income_types[it][\"actual\"] + (row.get(\"total_actual\") or 0)\n    \n    labels = list(income_types.keys())\n    budget_vals = []\n    actual_vals = []\n    for k in labels:\n        budget_vals.append(income_types[k][\"budget\"])\n        actual_vals.append(income_types[k][\"actual\"])\n    \n    return {\n        \"data\": {\n            \"labels\": labels,\n            \"datasets\": [\n                {\"name\": \"Budget\", \"values\": budget_vals},\n                {\"name\": \"Actual\", \"values\": actual_vals}\n            ]\n        },\n        \"type\": \"bar\",\n        \"colors\": [\"#7cd6fd\", \"#5e64ff\"]\n    }\n\ndef get_summary(data):\n    if not data:\n        return []\n    \n    total_budget = 0\n    total_actual = 0\n    for row in data:\n        total_budget = total_budget + (row.get(\"total_budget\") or 0)\n        total_actual = total_actual + (row.get(\"total_actual\") or 0)\n    total_variance = total_actual - total_budget\n    \n    indicator = \"Green\" if total_variance >= 0 else \"Red\"\n    \n    return [\n        {\"value\": total_budget, \"indicator\": \"Blue\", \"label\": \"Total Budget\", \"datatype\": \"Currency\"},\n        {\"value\": total_actual, \"indicator\": \"Green\", \"label\": \"Total Actual\", \"datatype\": \"Currency\"},\n        {\"value\": total_variance, \"indicator\": indicator, \"label\": \"Variance\", \"datatype\": \"Currency\"},\n        {\"value\": len(data), \"indicator\": \"Grey\", \"label\": \"Total Forecasts\", \"datatype\": \"Int\"}\n    ]\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Investment Income Dashboard",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Investment Income Dashboard",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Investment Income Dashboard",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-06 21:27:57.803623",
+  "module": "Assets",
+  "name": "Investment Income Test",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Investment Income Forecast",
+  "reference_report": null,
+  "report_name": "Investment Income Test",
+  "report_script": "def execute(filters=None):\n    columns = [\n        {\"fieldname\": \"name\", \"label\": \"Name\", \"fieldtype\": \"Data\", \"width\": 200},\n        {\"fieldname\": \"amount\", \"label\": \"Amount\", \"fieldtype\": \"Currency\", \"width\": 150}\n    ]\n    data = [\n        {\"name\": \"Test 1\", \"amount\": 1000},\n        {\"name\": \"Test 2\", \"amount\": 2000}\n    ]\n    return columns, data",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Investment Income Test",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Investment Income Test",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Investment Income Test",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-06 22:33:40.071721",
+  "module": "Assets",
+  "name": "Investment Income Quarterly Summary",
+  "prepared_report": 0,
+  "query": "\n    SELECT \n        iif.fiscal_year as \"Fiscal Year:Link/Fiscal Year:100\",\n        iif.fund as \"Fund:Link/WCFCBFund:120\",\n        'Q1 (Jan-Mar)' as \"Quarter:Data:120\",\n        iif.income_type as \"Income Type:Data:140\",\n        SUM(CASE WHEN item.month IN ('January','February','March') THEN item.budget_amount ELSE 0 END) as \"Budget:Currency:130\",\n        SUM(CASE WHEN item.month IN ('January','February','March') THEN item.actual_amount ELSE 0 END) as \"Actual:Currency:130\",\n        SUM(CASE WHEN item.month IN ('January','February','March') THEN item.variance ELSE 0 END) as \"Variance:Currency:130\"\n    FROM `tabInvestment Income Forecast Item` item\n    INNER JOIN `tabInvestment Income Forecast` iif ON item.parent = iif.name\n    WHERE iif.docstatus < 2\n    GROUP BY iif.fiscal_year, iif.fund, iif.income_type\n\n    UNION ALL\n\n    SELECT \n        iif.fiscal_year,\n        iif.fund,\n        'Q2 (Apr-Jun)' as quarter,\n        iif.income_type,\n        SUM(CASE WHEN item.month IN ('April','May','June') THEN item.budget_amount ELSE 0 END),\n        SUM(CASE WHEN item.month IN ('April','May','June') THEN item.actual_amount ELSE 0 END),\n        SUM(CASE WHEN item.month IN ('April','May','June') THEN item.variance ELSE 0 END)\n    FROM `tabInvestment Income Forecast Item` item\n    INNER JOIN `tabInvestment Income Forecast` iif ON item.parent = iif.name\n    WHERE iif.docstatus < 2\n    GROUP BY iif.fiscal_year, iif.fund, iif.income_type\n\n    UNION ALL\n\n    SELECT \n        iif.fiscal_year,\n        iif.fund,\n        'Q3 (Jul-Sep)' as quarter,\n        iif.income_type,\n        SUM(CASE WHEN item.month IN ('July','August','September') THEN item.budget_amount ELSE 0 END),\n        SUM(CASE WHEN item.month IN ('July','August','September') THEN item.actual_amount ELSE 0 END),\n        SUM(CASE WHEN item.month IN ('July','August','September') THEN item.variance ELSE 0 END)\n    FROM `tabInvestment Income Forecast Item` item\n    INNER JOIN `tabInvestment Income Forecast` iif ON item.parent = iif.name\n    WHERE iif.docstatus < 2\n    GROUP BY iif.fiscal_year, iif.fund, iif.income_type\n\n    UNION ALL\n\n    SELECT \n        iif.fiscal_year,\n        iif.fund,\n        'Q4 (Oct-Dec)' as quarter,\n        iif.income_type,\n        SUM(CASE WHEN item.month IN ('October','November','December') THEN item.budget_amount ELSE 0 END),\n        SUM(CASE WHEN item.month IN ('October','November','December') THEN item.actual_amount ELSE 0 END),\n        SUM(CASE WHEN item.month IN ('October','November','December') THEN item.variance ELSE 0 END)\n    FROM `tabInvestment Income Forecast Item` item\n    INNER JOIN `tabInvestment Income Forecast` iif ON item.parent = iif.name\n    WHERE iif.docstatus < 2\n    GROUP BY iif.fiscal_year, iif.fund, iif.income_type\n\n    ORDER BY 1, 2, 3, 4\n    ",
+  "ref_doctype": "Investment Income Forecast",
+  "reference_report": null,
+  "report_name": "Investment Income Quarterly Summary",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Investment Income Quarterly Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Investment Income Quarterly Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Investment Income Quarterly Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-06 23:26:43.052759",
+  "module": "Assets",
+  "name": "Investment Income Monthly Detail",
+  "prepared_report": 0,
+  "query": "\n    SELECT \n        iif.asset_name as \"Investment Asset:Data:180\",\n        iif.institution as \"Institution:Data:150\",\n        iif.income_type as \"Income Type:Data:120\",\n        iif.income_subtype as \"Sub-Type:Data:100\",\n        iif.tenor as \"Tenor:Data:80\",\n        item.month as \"Month:Data:100\",\n        item.budget_amount as \"Budget:Currency:120\",\n        item.actual_amount as \"Actual:Currency:120\",\n        item.variance as \"Variance:Currency:120\",\n        item.justification as \"Justification:Data:250\",\n        iif.fiscal_year as \"Fiscal Year:Link/Fiscal Year:90\",\n        iif.fund as \"Fund:Link/WCFCBFund:100\",\n        iif.investment_asset as \"Asset Link:Link/Asset:120\",\n        iif.name as \"Forecast:Link/Investment Income Forecast:120\"\n    FROM `tabInvestment Income Forecast Item` item\n    INNER JOIN `tabInvestment Income Forecast` iif ON item.parent = iif.name\n    WHERE iif.docstatus < 2\n    ORDER BY iif.income_type, iif.asset_name, iif.institution, \n        FIELD(item.month, 'January','February','March','April','May','June','July','August','September','October','November','December')\n    ",
+  "ref_doctype": "Investment Income Forecast",
+  "reference_report": null,
+  "report_name": "Investment Income Monthly Detail",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Investment Income Monthly Detail",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Investment Income Monthly Detail",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Investment Income Monthly Detail",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-07 13:46:50.968221",
+  "module": "Assets",
+  "name": "Rental Income Summary",
+  "prepared_report": 0,
+  "query": "\n    SELECT \n        rib.property_name as \"Property:Data:200\",\n        rib.location as \"Location:Data:120\",\n        rib.property_type as \"Type:Data:100\",\n        rib.number_of_units as \"Units:Int:60\",\n        rib.monthly_rent as \"Monthly Rent:Currency:120\",\n        rib.monthly_service_charge as \"Monthly SC:Currency:110\",\n        rib.total_budget as \"Total Budget:Currency:130\",\n        rib.actual_rent as \"Actual Rent:Currency:120\",\n        rib.total_actual as \"Total Actual:Currency:120\",\n        rib.total_variance as \"Variance:Currency:110\",\n        rib.variance_percentage as \"Variance %:Percent:90\",\n        rib.status as \"Status:Data:100\",\n        rib.fiscal_year as \"Fiscal Year:Link/Fiscal Year:90\",\n        rib.fund as \"Fund:Link/WCFCBFund:100\",\n        rib.name as \"Budget:Link/Rental Income Budget:130\"\n    FROM `tabRental Income Budget` rib\n    WHERE rib.docstatus < 2\n    ORDER BY rib.fiscal_year DESC, rib.property_name\n    ",
+  "ref_doctype": "Rental Income Budget",
+  "reference_report": null,
+  "report_name": "Rental Income Summary",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Rental Income Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Rental Income Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Rental Income Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-07 13:46:58.727235",
+  "module": "Assets",
+  "name": "Rental Income Sublets Detail",
+  "prepared_report": 0,
+  "query": "\n    SELECT \n        rib.property_name as \"Property:Data:180\",\n        rib.location as \"Location:Data:100\",\n        item.tenant_name as \"Tenant:Data:180\",\n        item.unit_code as \"Unit Code:Data:80\",\n        item.rent_per_month as \"Rent/Month:Currency:110\",\n        item.service_charge_per_month as \"SC/Month:Currency:100\",\n        item.annual_rent as \"Annual Rent:Currency:120\",\n        item.annual_service_charge as \"Annual SC:Currency:110\",\n        item.total_annual as \"Total Annual:Currency:120\",\n        rib.fiscal_year as \"Fiscal Year:Link/Fiscal Year:90\",\n        rib.fund as \"Fund:Link/WCFCBFund:100\",\n        rib.name as \"Budget:Link/Rental Income Budget:120\"\n    FROM `tabRental Income Budget Item` item\n    INNER JOIN `tabRental Income Budget` rib ON item.parent = rib.name\n    WHERE rib.docstatus < 2\n    ORDER BY rib.property_name, item.tenant_name\n    ",
+  "ref_doctype": "Rental Income Budget",
+  "reference_report": null,
+  "report_name": "Rental Income Sublets Detail",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Rental Income Sublets Detail",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Rental Income Sublets Detail",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Rental Income Sublets Detail",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow Summary\"] = {\n    filters: [\n        {fieldname: \"as_of_date\", label: __(\"As Of Date\"), fieldtype: \"Date\", default: frappe.datetime.get_today(), reqd: 1},\n        {fieldname: \"horizon\", label: __(\"Horizon (Months)\"), fieldtype: \"Int\", default: 6, reqd: 1}\n    ],\n    formatter: function(value, row, column, data, default_formatter) {\n        value = default_formatter(value, row, column, data);\n        if ((column.fieldname === \"net_cash_flow_actual\" || column.fieldname === \"net_cash_flow_planned\") && data) {\n            if (parseFloat(data[column.fieldname]) < 0) value = \"<span style='color:red'>\" + value + \"</span>\";\n            else if (parseFloat(data[column.fieldname]) > 0) value = \"<span style='color:green'>\" + value + \"</span>\";\n        }\n        return value;\n    }\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-08 06:59:05.597874",
+  "module": "Accounts",
+  "name": "Cash Flow Summary",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Summary",
+  "report_script": "\ndef execute(filters=None):\n    columns = get_columns()\n    data = get_data(filters)\n    chart = get_chart(data)\n    return columns, data, None, chart\n\ndef get_columns():\n    return [\n        {\"fieldname\": \"month\", \"label\": \"Month\", \"fieldtype\": \"Data\", \"width\": 100},\n        {\"fieldname\": \"actual_inflow\", \"label\": \"Actual Inflow\", \"fieldtype\": \"Currency\", \"width\": 150},\n        {\"fieldname\": \"actual_outflow\", \"label\": \"Actual Outflow\", \"fieldtype\": \"Currency\", \"width\": 150},\n        {\"fieldname\": \"net_cash_flow_actual\", \"label\": \"Net Actual\", \"fieldtype\": \"Currency\", \"width\": 140},\n        {\"fieldname\": \"planned_inflow\", \"label\": \"Planned Inflow\", \"fieldtype\": \"Currency\", \"width\": 150},\n        {\"fieldname\": \"planned_outflow\", \"label\": \"Planned Outflow\", \"fieldtype\": \"Currency\", \"width\": 150},\n        {\"fieldname\": \"net_cash_flow_planned\", \"label\": \"Net Planned\", \"fieldtype\": \"Currency\", \"width\": 140}\n    ]\n\ndef get_data(filters):\n    as_of_date = filters.get(\"as_of_date\")\n    horizon = filters.get(\"horizon\") or 6\n    \n    # Calculate date range in Python\n    dates = frappe.db.sql(\"\"\"\n        SELECT \n            GREATEST(DATE_SUB(%s, INTERVAL %s MONTH), DATE_FORMAT(%s, '%%Y-01-01')) AS start_date,\n            LEAST(DATE_ADD(%s, INTERVAL %s MONTH), DATE_FORMAT(%s, '%%Y-12-31')) AS end_date\n    \"\"\", (as_of_date, horizon, as_of_date, as_of_date, horizon, as_of_date), as_dict=True)[0]\n    \n    start_date = dates.get(\"start_date\")\n    end_date = dates.get(\"end_date\")\n    \n    query = \"\"\"\n        SELECT \n            m.month,\n            COALESCE(ai.amount, 0) AS actual_inflow,\n            COALESCE(ao.amount, 0) AS actual_outflow,\n            (COALESCE(ai.amount, 0) - COALESCE(ao.amount, 0)) AS net_cash_flow_actual,\n            COALESCE(pio.amount, 0) + COALESCE(pif.amount, 0) AS planned_inflow,\n            COALESCE(pob.amount, 0) + COALESCE(pop.amount, 0) AS planned_outflow,\n            (COALESCE(pio.amount, 0) + COALESCE(pif.amount, 0) - COALESCE(pob.amount, 0) - COALESCE(pop.amount, 0)) AS net_cash_flow_planned\n        FROM (\n            SELECT DISTINCT DATE_FORMAT(pe.posting_date, '%%Y-%%m') AS month \n            FROM `tabPayment Entry` pe\n            WHERE pe.docstatus = 1 AND pe.posting_date BETWEEN %(start_date)s AND %(end_date)s\n            UNION\n            SELECT DISTINCT DATE_FORMAT(so.delivery_date, '%%Y-%%m') AS month \n            FROM `tabSales Order` so\n            WHERE so.docstatus = 1 AND so.delivery_date BETWEEN %(start_date)s AND %(end_date)s \n                AND so.status NOT IN ('Completed','Cancelled','Closed')\n            UNION\n            SELECT DISTINCT DATE_FORMAT(ppt.contract_signing, '%%Y-%%m') AS month \n            FROM `tabProcurement Plan` pp \n            JOIN `tabProcurement Plan Type` ppt ON ppt.parent = pp.name\n            WHERE pp.docstatus = 1 AND ppt.type = 'Actual' \n                AND ppt.contract_signing BETWEEN %(start_date)s AND %(end_date)s\n            UNION\n            SELECT DISTINCT DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m') AS month\n            FROM `tabBudget` b \n            JOIN `tabMonthly Distribution Percentage` mdp ON mdp.parent = b.monthly_distribution\n            WHERE b.docstatus = 1 AND b.monthly_distribution IS NOT NULL\n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') BETWEEN %(start_date)s AND %(end_date)s\n        ) m\n        LEFT JOIN (\n            SELECT DATE_FORMAT(pe.posting_date, '%%Y-%%m') AS month, SUM(pe.paid_amount) AS amount \n            FROM `tabPayment Entry` pe \n            WHERE pe.docstatus = 1 AND pe.payment_type = 'Receive' \n                AND pe.posting_date BETWEEN %(start_date)s AND %(end_date)s \n            GROUP BY DATE_FORMAT(pe.posting_date, '%%Y-%%m')\n        ) ai ON m.month = ai.month\n        LEFT JOIN (\n            SELECT DATE_FORMAT(pe.posting_date, '%%Y-%%m') AS month, SUM(pe.paid_amount) AS amount \n            FROM `tabPayment Entry` pe \n            WHERE pe.docstatus = 1 AND pe.payment_type = 'Pay' \n                AND pe.posting_date BETWEEN %(start_date)s AND %(end_date)s \n            GROUP BY DATE_FORMAT(pe.posting_date, '%%Y-%%m')\n        ) ao ON m.month = ao.month\n        LEFT JOIN (\n            SELECT DATE_FORMAT(so.delivery_date, '%%Y-%%m') AS month, SUM(so.grand_total) AS amount \n            FROM `tabSales Order` so \n            WHERE so.docstatus = 1 AND so.delivery_date BETWEEN %(start_date)s AND %(end_date)s \n                AND so.delivery_date > CURDATE() \n                AND so.status NOT IN ('Completed','Cancelled','Closed') \n            GROUP BY DATE_FORMAT(so.delivery_date, '%%Y-%%m')\n        ) pio ON m.month = pio.month\n        LEFT JOIN (\n            SELECT DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m') AS month,\n                   SUM(ABS(ba.budget_amount) * mdp.percentage_allocation / 100) AS amount \n            FROM `tabBudget` b \n            JOIN `tabBudget Account` ba ON ba.parent = b.name \n            JOIN `tabMonthly Distribution Percentage` mdp ON mdp.parent = COALESCE(ba.custom_monthly_distribution, b.monthly_distribution) \n            WHERE b.docstatus = 1 AND b.budget_type = 'Forecast' \n                AND COALESCE(ba.custom_monthly_distribution, b.monthly_distribution) IS NOT NULL \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') BETWEEN %(start_date)s AND %(end_date)s \n            GROUP BY DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m')\n        ) pif ON m.month = pif.month\n        LEFT JOIN (\n            SELECT DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m') AS month,\n                   SUM(ba.budget_amount * mdp.percentage_allocation / 100) AS amount \n            FROM `tabBudget` b \n            JOIN `tabBudget Account` ba ON ba.parent = b.name \n            JOIN `tabAccount` acc ON acc.name = ba.account AND acc.root_type = 'Expense' \n            JOIN `tabMonthly Distribution Percentage` mdp ON mdp.parent = b.monthly_distribution \n            WHERE b.docstatus = 1 AND b.budget_type IN ('OPEX', 'Property Expenses', 'HR') \n                AND b.monthly_distribution IS NOT NULL \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') BETWEEN %(start_date)s AND %(end_date)s \n            GROUP BY DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m')\n        ) pob ON m.month = pob.month\n        LEFT JOIN (\n            SELECT DATE_FORMAT(ppt.contract_signing, '%%Y-%%m') AS month, SUM(ppt.estimated_cost) AS amount \n            FROM `tabProcurement Plan` pp \n            JOIN `tabProcurement Plan Type` ppt ON ppt.parent = pp.name \n            WHERE pp.docstatus = 1 AND ppt.type = 'Actual' \n                AND ppt.contract_signing BETWEEN %(start_date)s AND %(end_date)s \n            GROUP BY DATE_FORMAT(ppt.contract_signing, '%%Y-%%m')\n        ) pop ON m.month = pop.month\n        ORDER BY m.month\n    \"\"\"\n    return frappe.db.sql(query, {\"start_date\": start_date, \"end_date\": end_date}, as_dict=True)\n\ndef get_chart(data):\n    if not data:\n        return None\n    labels = [d.get(\"month\") for d in data]\n    return {\n        \"data\": {\n            \"labels\": labels,\n            \"datasets\": [\n                {\"name\": \"Net Actual\", \"values\": [d.get(\"net_cash_flow_actual\") or 0 for d in data]},\n                {\"name\": \"Net Planned\", \"values\": [d.get(\"net_cash_flow_planned\") or 0 for d in data]}\n            ]\n        },\n        \"type\": \"bar\",\n        \"colors\": [\"#5e64ff\", \"#98d85b\"]\n    }\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow by Source Type\"] = {\n    filters: [\n        {fieldname: \"as_of_date\", label: __(\"As Of Date\"), fieldtype: \"Date\", default: frappe.datetime.get_today(), reqd: 1},\n        {fieldname: \"horizon\", label: __(\"Horizon (Months)\"), fieldtype: \"Int\", default: 6, reqd: 1},\n        {fieldname: \"month_filter\", label: __(\"Month\"), fieldtype: \"Data\"}\n    ],\n    formatter: function(value, row, column, data, default_formatter) {\n        value = default_formatter(value, row, column, data);\n        if (column.fieldname === \"direction\" && data) {\n            if (data.direction === \"Inflow\") value = \"<span style='color:green;font-weight:bold'>\" + value + \"</span>\";\n            else if (data.direction === \"Outflow\") value = \"<span style='color:red;font-weight:bold'>\" + value + \"</span>\";\n        }\n        return value;\n    }\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-08 06:59:05.673542",
+  "module": "Accounts",
+  "name": "Cash Flow by Source Type",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow by Source Type",
+  "report_script": "\ndef execute(filters=None):\n    columns = [\n        {\"fieldname\": \"month\", \"label\": \"Month\", \"fieldtype\": \"Data\", \"width\": 100},\n        {\"fieldname\": \"flow_type\", \"label\": \"Flow Type\", \"fieldtype\": \"Data\", \"width\": 80},\n        {\"fieldname\": \"direction\", \"label\": \"Direction\", \"fieldtype\": \"Data\", \"width\": 80},\n        {\"fieldname\": \"source_type\", \"label\": \"Source Type\", \"fieldtype\": \"Data\", \"width\": 180},\n        {\"fieldname\": \"transaction_count\", \"label\": \"# Trans\", \"fieldtype\": \"Int\", \"width\": 80},\n        {\"fieldname\": \"total_amount\", \"label\": \"Total Amount\", \"fieldtype\": \"Currency\", \"width\": 150}\n    ]\n    data = get_data(filters)\n    return columns, data\n\ndef get_data(filters):\n    as_of_date = filters.get(\"as_of_date\")\n    horizon = filters.get(\"horizon\") or 6\n    month_filter = filters.get(\"month_filter\")\n    \n    dates = frappe.db.sql(\"\"\"\n        SELECT \n            GREATEST(DATE_SUB(%s, INTERVAL %s MONTH), DATE_FORMAT(%s, '%%Y-01-01')) AS start_date,\n            LEAST(DATE_ADD(%s, INTERVAL %s MONTH), DATE_FORMAT(%s, '%%Y-12-31')) AS end_date\n    \"\"\", (as_of_date, horizon, as_of_date, as_of_date, horizon, as_of_date), as_dict=True)[0]\n    \n    start_date = dates.get(\"start_date\")\n    end_date = dates.get(\"end_date\")\n    \n    conditions = \"\"\n    if month_filter:\n        conditions = \"WHERE month = %(month_filter)s\"\n    \n    query = \"\"\"\n        SELECT month, flow_type, direction, source_type, COUNT(*) AS transaction_count, SUM(amount) AS total_amount \n        FROM (\n            SELECT DATE_FORMAT(pe.posting_date, '%%Y-%%m') AS month, 'Actual' AS flow_type, 'Inflow' AS direction, \n                'Payment Received' AS source_type, pe.paid_amount AS amount \n            FROM `tabPayment Entry` pe \n            WHERE pe.docstatus = 1 AND pe.payment_type = 'Receive' \n                AND pe.posting_date BETWEEN %(start_date)s AND %(end_date)s\n            UNION ALL \n            SELECT DATE_FORMAT(pe.posting_date, '%%Y-%%m'), 'Actual', 'Outflow', 'Payment Made', pe.paid_amount \n            FROM `tabPayment Entry` pe \n            WHERE pe.docstatus = 1 AND pe.payment_type = 'Pay' \n                AND pe.posting_date BETWEEN %(start_date)s AND %(end_date)s\n            UNION ALL \n            SELECT DATE_FORMAT(so.delivery_date, '%%Y-%%m'), 'Planned', 'Inflow', 'Sales Order', so.grand_total \n            FROM `tabSales Order` so \n            WHERE so.docstatus = 1 AND so.delivery_date BETWEEN %(start_date)s AND %(end_date)s \n                AND so.delivery_date > CURDATE() AND so.status NOT IN ('Completed','Cancelled','Closed')\n            UNION ALL \n            SELECT DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m'), \n                'Planned', 'Inflow', 'Budget - Forecast', ABS(ba.budget_amount) * mdp.percentage_allocation / 100 \n            FROM `tabBudget` b \n            JOIN `tabBudget Account` ba ON ba.parent = b.name \n            JOIN `tabMonthly Distribution Percentage` mdp ON mdp.parent = COALESCE(ba.custom_monthly_distribution, b.monthly_distribution) \n            WHERE b.docstatus = 1 AND b.budget_type = 'Forecast' \n                AND COALESCE(ba.custom_monthly_distribution, b.monthly_distribution) IS NOT NULL \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') BETWEEN %(start_date)s AND %(end_date)s\n            UNION ALL \n            SELECT DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m'), \n                'Planned', 'Outflow', CONCAT('Budget - ', b.budget_type), ba.budget_amount * mdp.percentage_allocation / 100 \n            FROM `tabBudget` b \n            JOIN `tabBudget Account` ba ON ba.parent = b.name \n            JOIN `tabAccount` acc ON acc.name = ba.account AND acc.root_type = 'Expense' \n            JOIN `tabMonthly Distribution Percentage` mdp ON mdp.parent = b.monthly_distribution \n            WHERE b.docstatus = 1 AND b.budget_type IN ('OPEX', 'Property Expenses', 'HR') AND b.monthly_distribution IS NOT NULL \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') BETWEEN %(start_date)s AND %(end_date)s\n            UNION ALL \n            SELECT DATE_FORMAT(ppt.contract_signing, '%%Y-%%m'), 'Planned', 'Outflow', 'Procurement Plan', ppt.estimated_cost \n            FROM `tabProcurement Plan` pp \n            JOIN `tabProcurement Plan Type` ppt ON ppt.parent = pp.name \n            WHERE pp.docstatus = 1 AND ppt.type = 'Actual' \n                AND ppt.contract_signing BETWEEN %(start_date)s AND %(end_date)s\n        ) all_flows \n        {conditions}\n        GROUP BY month, flow_type, direction, source_type \n        ORDER BY month, flow_type, direction, source_type\n    \"\"\".replace(\"{conditions}\", conditions)\n    \n    return frappe.db.sql(query, {\"start_date\": start_date, \"end_date\": end_date, \"month_filter\": month_filter}, as_dict=True)\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow by Source Type",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow by Source Type",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow Test\"] = {\n    filters: [\n        {fieldname: \"as_of_date\", label: __(\"As Of Date\"), fieldtype: \"Date\", default: frappe.datetime.get_today(), reqd: 1},\n        {fieldname: \"horizon\", label: __(\"Horizon\"), fieldtype: \"Int\", default: 3, reqd: 1}\n    ]\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-08 07:03:35.733019",
+  "module": "Accounts",
+  "name": "Cash Flow Test",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Test",
+  "report_script": "\ndef execute(filters=None):\n    columns = [\n        {\"fieldname\": \"month\", \"label\": \"Month\", \"fieldtype\": \"Data\", \"width\": 100},\n        {\"fieldname\": \"actual_inflow\", \"label\": \"Actual Inflow\", \"fieldtype\": \"Currency\", \"width\": 150},\n        {\"fieldname\": \"actual_outflow\", \"label\": \"Actual Outflow\", \"fieldtype\": \"Currency\", \"width\": 150}\n    ]\n    \n    as_of_date = filters.get(\"as_of_date\") if filters else \"2025-12-08\"\n    horizon = filters.get(\"horizon\") or 3\n    \n    # Simple date calculation\n    start_date = \"2025-09-08\"\n    end_date = \"2025-12-31\"\n    \n    data = frappe.db.sql(\"\"\"\n        SELECT \n            m.month,\n            COALESCE(ai.amount, 0) AS actual_inflow,\n            COALESCE(ao.amount, 0) AS actual_outflow\n        FROM (\n            SELECT DISTINCT DATE_FORMAT(pe.posting_date, '%%Y-%%m') AS month \n            FROM `tabPayment Entry` pe\n            WHERE pe.docstatus = 1 AND pe.posting_date BETWEEN %(start_date)s AND %(end_date)s\n        ) m\n        LEFT JOIN (\n            SELECT DATE_FORMAT(pe.posting_date, '%%Y-%%m') AS month, SUM(pe.paid_amount) AS amount \n            FROM `tabPayment Entry` pe \n            WHERE pe.docstatus = 1 AND pe.payment_type = 'Receive' \n                AND pe.posting_date BETWEEN %(start_date)s AND %(end_date)s \n            GROUP BY DATE_FORMAT(pe.posting_date, '%%Y-%%m')\n        ) ai ON m.month = ai.month\n        LEFT JOIN (\n            SELECT DATE_FORMAT(pe.posting_date, '%%Y-%%m') AS month, SUM(pe.paid_amount) AS amount \n            FROM `tabPayment Entry` pe \n            WHERE pe.docstatus = 1 AND pe.payment_type = 'Pay' \n                AND pe.posting_date BETWEEN %(start_date)s AND %(end_date)s \n            GROUP BY DATE_FORMAT(pe.posting_date, '%%Y-%%m')\n        ) ao ON m.month = ao.month\n        ORDER BY m.month\n    \"\"\", {\"start_date\": start_date, \"end_date\": end_date}, as_dict=True)\n    \n    return columns, data\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Test",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Test",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Cash Flow Test",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-08 07:10:51.308733",
+  "module": "Accounts",
+  "name": "Cash Flow Query Test",
+  "prepared_report": 0,
+  "query": "\n        SELECT \n            DATE_FORMAT(pe.posting_date, '%Y-%m') AS month,\n            pe.payment_type,\n            SUM(pe.paid_amount) AS amount\n        FROM `tabPayment Entry` pe\n        WHERE pe.docstatus = 1 \n            AND pe.posting_date BETWEEN '2025-09-01' AND '2025-12-31'\n        GROUP BY DATE_FORMAT(pe.posting_date, '%Y-%m'), pe.payment_type\n        ORDER BY month\n    ",
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Query Test",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Query Test",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Query Test",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Cash Flow Query Test",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow Test 5\"] = {\n    filters: []\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-08 07:17:15.039776",
+  "module": "Accounts",
+  "name": "Cash Flow Test 5",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Test 5",
+  "report_script": "\ncolumns = [\n    {\"fieldname\": \"month\", \"label\": \"Month\", \"fieldtype\": \"Data\", \"width\": 100},\n    {\"fieldname\": \"amount\", \"label\": \"Amount\", \"fieldtype\": \"Currency\", \"width\": 150}\n]\n\ndata = [\n    [\"2025-09\", 1000],\n    [\"2025-10\", 2000],\n    [\"2025-11\", 3000]\n]\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Test 5",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Test 5",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Cash Flow Test 5",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow Test 6\"] = {\n    filters: []\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-08 07:19:23.700100",
+  "module": "Accounts",
+  "name": "Cash Flow Test 6",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Test 6",
+  "report_script": "\ncolumns = [\n    {\"fieldname\": \"month\", \"label\": \"Month\", \"fieldtype\": \"Data\", \"width\": 100},\n    {\"fieldname\": \"amount\", \"label\": \"Amount\", \"fieldtype\": \"Currency\", \"width\": 150}\n]\n\nresult = [\n    [\"2025-09\", 1000],\n    [\"2025-10\", 2000],\n    [\"2025-11\", 3000]\n]\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Test 6",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Test 6",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Cash Flow Test 6",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow Test 7\"] = {\n    filters: []\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-09 06:28:33.837946",
+  "module": "Accounts",
+  "name": "Cash Flow Test 7",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Test 7",
+  "report_script": "\ncolumns = [\n    \"Month:Data:100\",\n    \"Amount:Currency:150\"\n]\n\nresult = [\n    [\"2025-09\", 1000],\n    [\"2025-10\", 2000],\n    [\"2025-11\", 3000]\n]\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Test 7",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Test 7",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Cash Flow Test 7",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [
+   {
+    "fieldname": "month",
+    "fieldtype": "Data",
+    "label": "Month",
+    "options": null,
+    "parent": "Cash Flow Test 9",
+    "parentfield": "columns",
+    "parenttype": "Report",
+    "width": 100
+   },
+   {
+    "fieldname": "amount",
+    "fieldtype": "Currency",
+    "label": "Amount",
+    "options": null,
+    "parent": "Cash Flow Test 9",
+    "parentfield": "columns",
+    "parenttype": "Report",
+    "width": 150
+   }
+  ],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow Test 9\"] = {\n    filters: []\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-09 06:38:51.083338",
+  "module": "Accounts",
+  "name": "Cash Flow Test 9",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Test 9",
+  "report_script": "\nresult = [\n    [\"2025-09\", 1000],\n    [\"2025-10\", 2000],\n    [\"2025-11\", 3000]\n]\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Test 9",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Test 9",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Cash Flow Test 9",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[],\"fields\":[[\"name\",\"Staffing Plan\"],[\"docstatus\",\"Staffing Plan\"],[\"owner\",\"Staffing Plan\"],[\"creation\",\"Staffing Plan\"],[\"department\",\"Staffing Plan\"],[\"custom_section\",\"Staffing Plan\"],[\"to_date\",\"Staffing Plan\"],[\"from_date\",\"Staffing Plan\"],[\"total_estimated_budget\",\"Staffing Plan\"],[\"estimated_cost_per_position\",\"Staffing Plan Detail\"],[\"grade\",\"Staffing Plan Detail\"],[\"vacancies\",\"Staffing Plan Detail\"],[\"total_estimated_cost\",\"Staffing Plan Detail\"],[\"designation\",\"Staffing Plan Detail\"],[\"number_of_positions\",\"Staffing Plan Detail\"],[\"current_openings\",\"Staffing Plan Detail\"],[\"current_count\",\"Staffing Plan Detail\"]],\"order_by\":\"`tabStaffing Plan`.`modified` desc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"name\":120,\"docstatus\":120,\"owner\":120,\"creation\":120,\"department\":120,\"custom_section\":120,\"to_date\":120,\"from_date\":120,\"total_estimated_budget\":120,\"Staffing Plan Detail:estimated_cost_per_position\":120,\"Staffing Plan Detail:grade\":120,\"Staffing Plan Detail:vacancies\":120,\"Staffing Plan Detail:total_estimated_cost\":120,\"Staffing Plan Detail:designation\":120,\"Staffing Plan Detail:number_of_positions\":120,\"Staffing Plan Detail:current_openings\":120,\"Staffing Plan Detail:current_count\":120},\"group_by\":null}",
+  "letter_head": "WCFCB",
+  "modified": "2025-12-10 12:11:15.927159",
+  "module": "HR",
+  "name": "STAFFING PLAN",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Staffing Plan",
+  "reference_report": null,
+  "report_name": "STAFFING PLAN",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "HR Manager"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "HR User"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Director HRA"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC DHRA"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC HR ADM ASS MGR"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC HR ADM OFF"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC HR ASS MGR"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC HR HRO"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC HR MGR"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC HR SNR EMPLOY REL"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC HR SNR PLAN"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC HR SNR TRAIN"
+   },
+   {
+    "parent": "STAFFING PLAN",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "WCC HR SWO"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[],\"fields\":[[\"name\",\"Budget\"],[\"docstatus\",\"Budget\"],[\"fiscal_year\",\"Budget\"],[\"cost_center\",\"Budget\"],[\"project\",\"Budget\"],[\"account\",\"Budget Account\"],[\"budget_amount\",\"Budget Account\"],[\"custom_material_request\",\"Budget Account\"]],\"order_by\":\"`tabBudget`.`modified` desc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"name\":228,\"docstatus\":120,\"fiscal_year\":120,\"cost_center\":120,\"project\":120,\"Budget Account:account\":226,\"Budget Account:budget_amount\":151,\"Budget Account:custom_material_request\":120},\"group_by\":null}",
+  "letter_head": "WCFCB",
+  "modified": "2025-03-05 11:12:16.139928",
+  "module": "Accounts",
+  "name": "Budget Report",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Budget",
+  "reference_report": null,
+  "report_name": "Budget Report",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "Budget Report",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Assistant Manager Finance"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[],\"fields\":[[\"voucher_type\",\"Journal Entry\"],[\"_aggregate_column\",\"Journal Entry\"]],\"order_by\":\"`tabJournal Entry`.`modified` desc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"voucher_type\":120,\"_aggregate_column\":200},\"group_by\":{\"group_by\":\"`tabJournal Entry`.`voucher_type`\",\"aggregate_function\":\"count\"}}",
+  "letter_head": "WCFCB",
+  "modified": "2025-04-14 12:28:11.468130",
+  "module": "Accounts",
+  "name": "Journal entry types",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Journal Entry",
+  "reference_report": null,
+  "report_name": "Journal entry types",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "Journal entry types",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Auditor"
+   },
+   {
+    "parent": "Journal entry types",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Senior Accountant"
+   },
+   {
+    "parent": "Journal entry types",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Assistant Manager Finance"
+   },
+   {
+    "parent": "Journal entry types",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Employee Self Service"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"filters\":[],\"fields\":[[\"name\",\"Budget Request\"],[\"docstatus\",\"Budget Request\"],[\"amount_requested\",\"Budget Request\"],[\"budget\",\"Budget Request\"],[\"cost_centre\",\"Budget Request\"],[\"owner\",\"Budget Request\"],[\"expense_account\",\"Budget Request\"],[\"to_expense_account\",\"Budget Request\"],[\"motivation\",\"Budget Request\"]],\"order_by\":\"`tabBudget Request`.`modified` desc\",\"add_totals_row\":0,\"page_length\":20,\"column_widths\":{\"name\":120,\"docstatus\":120,\"amount_requested\":120,\"budget\":120,\"cost_centre\":120,\"owner\":120,\"expense_account\":120,\"to_expense_account\":120,\"motivation\":120},\"group_by\":null}",
+  "letter_head": "WCFCB",
+  "modified": "2025-08-06 04:11:59.538002",
+  "module": "ExN",
+  "name": "Budget Requests",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Budget Request",
+  "reference_report": null,
+  "report_name": "Budget Requests",
+  "report_script": null,
+  "report_type": "Report Builder",
+  "roles": [
+   {
+    "parent": "Budget Requests",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow Test 2\"] = {\n    filters: []\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-08 07:06:14.634712",
+  "module": "Accounts",
+  "name": "Cash Flow Test 2",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Test 2",
+  "report_script": "\ndef execute(filters=None):\n    columns = [\n        {\"fieldname\": \"month\", \"label\": \"Month\", \"fieldtype\": \"Data\", \"width\": 100},\n        {\"fieldname\": \"amount\", \"label\": \"Amount\", \"fieldtype\": \"Currency\", \"width\": 150}\n    ]\n    \n    data = [\n        {\"month\": \"2025-09\", \"amount\": 1000},\n        {\"month\": \"2025-10\", \"amount\": 2000},\n        {\"month\": \"2025-11\", \"amount\": 3000}\n    ]\n    \n    return columns, data\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Test 2",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Test 2",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Cash Flow Test 2",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow Test 3\"] = {\n    filters: []\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-08 07:08:57.376380",
+  "module": "Accounts",
+  "name": "Cash Flow Test 3",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Test 3",
+  "report_script": "\ndef execute(filters=None):\n    frappe.log_error(\"Execute function called!\", \"CF Test 3\")\n    \n    columns = [\n        {\"fieldname\": \"month\", \"label\": \"Month\", \"fieldtype\": \"Data\", \"width\": 100},\n        {\"fieldname\": \"amount\", \"label\": \"Amount\", \"fieldtype\": \"Currency\", \"width\": 150}\n    ]\n    \n    data = [\n        {\"month\": \"2025-09\", \"amount\": 1000},\n        {\"month\": \"2025-10\", \"amount\": 2000},\n        {\"month\": \"2025-11\", \"amount\": 3000}\n    ]\n    \n    frappe.log_error(\"Returning data: \" + str(data), \"CF Test 3\")\n    \n    return columns, data\n\nfrappe.log_error(\"Script loaded\", \"CF Test 3\")\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Test 3",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Test 3",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Cash Flow Test 3",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow Test 4\"] = {\n    filters: []\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-08 07:14:40.598769",
+  "module": "Accounts",
+  "name": "Cash Flow Test 4",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Test 4",
+  "report_script": "\ncolumns = [\n    {\"fieldname\": \"month\", \"label\": \"Month\", \"fieldtype\": \"Data\", \"width\": 100},\n    {\"fieldname\": \"amount\", \"label\": \"Amount\", \"fieldtype\": \"Currency\", \"width\": 150}\n]\n\ndata = [\n    {\"month\": \"2025-09\", \"amount\": 1000},\n    {\"month\": \"2025-10\", \"amount\": 2000},\n    {\"month\": \"2025-11\", \"amount\": 3000}\n]\n\nresult = (columns, data)\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Test 4",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Test 4",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Cash Flow Test 4",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow Test 8\"] = {\n    filters: []\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-09 06:33:21.595066",
+  "module": "Accounts",
+  "name": "Cash Flow Test 8",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Test 8",
+  "report_script": "\ncolumns = [\n    {\"fieldname\": \"month\", \"label\": \"Month\", \"fieldtype\": \"Data\", \"width\": 100},\n    {\"fieldname\": \"amount\", \"label\": \"Amount\", \"fieldtype\": \"Currency\", \"width\": 150}\n]\n\ndata = [\n    {\"month\": \"2025-09\", \"amount\": 1000},\n    {\"month\": \"2025-10\", \"amount\": 2000},\n    {\"month\": \"2025-11\", \"amount\": 3000}\n]\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Test 8",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Test 8",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   },
+   {
+    "parent": "Cash Flow Test 8",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-06-11 22:24:40.866700",
+  "module": "Accounts",
+  "name": "Budget vs Actual Consolidated",
+  "prepared_report": 0,
+  "query": "WITH \r\nActualExpenses AS (\r\n    SELECT \r\n        gl.account,\r\n        gl.cost_center,\r\n        gl.project,\r\n        SUM(gl.debit) AS actual_expenses\r\n    FROM `tabGL Entry` gl\r\n    WHERE gl.docstatus = 1\r\n    GROUP BY gl.account, gl.cost_center, gl.project\r\n),\r\nMRCommitments AS (\r\n    SELECT \r\n        mri.expense_account AS account,\r\n        mri.cost_center,\r\n        mri.project,\r\n        SUM(mri.amount) AS mr_commitments\r\n    FROM `tabMaterial Request Item` mri\r\n    JOIN `tabMaterial Request` mr ON mr.name = mri.parent\r\n    WHERE mr.status = 'Pending' AND mr.docstatus = 1\r\n    GROUP BY mri.expense_account, mri.cost_center, mri.project\r\n),\r\nPOCommitments AS (\r\n    SELECT \r\n        poi.expense_account AS account,\r\n        poi.cost_center,\r\n        poi.project,\r\n        SUM(poi.base_amount) AS po_commitments\r\n    FROM `tabPurchase Order Item` poi\r\n    JOIN `tabPurchase Order` po ON po.name = poi.parent\r\n    WHERE po.status NOT IN ('Completed', 'Cancelled', 'Closed') AND po.docstatus = 1\r\n    GROUP BY poi.expense_account, poi.cost_center, poi.project\r\n)\r\nSELECT \r\n    b.name AS \"Budget\",\r\n    b.cost_center AS \"Cost Center\",\r\n    cc.cost_center_name AS \"Cost Center Name\",\r\n    b.project AS \"Project\",\r\n    p.project_name AS \"Project Name\",\r\n    ba.account AS \"Expense Account\",\r\n    acc.account_name AS \"Account Name\",\r\n    SUM(ba.budget_amount) AS \"Budget Amount\",\r\n    IFNULL(ae.actual_expenses, 0) AS \"Actual Expenses\",\r\n    IFNULL(mrc.mr_commitments, 0) AS \"MR Commitments\",\r\n    IFNULL(poc.po_commitments, 0) AS \"PO Commitments\",\r\n    (SUM(ba.budget_amount) - IFNULL(ae.actual_expenses, 0) - IFNULL(mrc.mr_commitments, 0) - IFNULL(poc.po_commitments, 0)) AS \"Available Budget\",\r\n    CASE \r\n        WHEN SUM(ba.budget_amount) = 0 THEN 0\r\n        ELSE ROUND(\r\n            (SUM(ba.budget_amount) - IFNULL(ae.actual_expenses, 0) - IFNULL(mrc.mr_commitments, 0) - IFNULL(poc.po_commitments, 0)) / \r\n            SUM(ba.budget_amount) * 100, \r\n            2\r\n        )\r\n    END AS \"Budget Left %%\"\r\nFROM `tabBudget` b\r\nJOIN `tabBudget Account` ba ON ba.parent = b.name\r\nJOIN `tabAccount` acc ON ba.account = acc.name\r\nLEFT JOIN `tabCost Center` cc ON b.cost_center = cc.name\r\nLEFT JOIN `tabProject` p ON b.project = p.name\r\nLEFT JOIN ActualExpenses ae ON ae.account = ba.account AND ae.cost_center = b.cost_center AND (ae.project = b.project OR (ae.project IS NULL AND b.project IS NULL))\r\nLEFT JOIN MRCommitments mrc ON mrc.account = ba.account AND mrc.cost_center = b.cost_center AND (mrc.project = b.project OR (mrc.project IS NULL AND b.project IS NULL))\r\nLEFT JOIN POCommitments poc ON poc.account = ba.account AND poc.cost_center = b.cost_center AND (poc.project = b.project OR (poc.project IS NULL AND b.project IS NULL))\r\nWHERE b.docstatus = 1\r\nGROUP BY b.name, b.cost_center, cc.cost_center_name, b.project, p.project_name, ba.account, acc.account_name\r\nORDER BY b.cost_center, b.project, ba.account;",
+  "ref_doctype": "Budget",
+  "reference_report": null,
+  "report_name": "Budget vs Actual Consolidated",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Budget vs Actual Consolidated",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-07 23:38:58.018905",
+  "module": "Accounts",
+  "name": "Assessment Budget Summary",
+  "prepared_report": 0,
+  "query": "\n    SELECT \n        asb.branch as \"Branch:Data:150\",\n        asb.cost_centre as \"Cost Centre:Link/Cost Center:150\",\n        asb.total_current_employers as \"Current Employers:Int:100\",\n        asb.total_current_employees as \"Current Employees:Float:110\",\n        asb.total_budgeted_employers as \"Budgeted Employers:Float:110\",\n        asb.total_budgeted_employees as \"Budgeted Employees:Float:110\",\n        asb.total_budgeted_assessments as \"Budgeted Amount:Currency:140\",\n        asb.total_collection as \"Total Collection:Currency:130\",\n        asb.total_variance as \"Variance:Currency:120\",\n        asb.variance_percentage as \"Variance %:Percent:90\",\n        asb.status as \"Status:Data:100\",\n        asb.fiscal_year as \"Fiscal Year:Link/Fiscal Year:90\",\n        asb.fund as \"Fund:Link/WCFCBFund:100\",\n        asb.name as \"Budget:Link/Assessment Budget:130\"\n    FROM `tabAssessment Budget` asb\n    WHERE asb.docstatus < 2\n    ORDER BY asb.fiscal_year DESC, asb.branch\n    ",
+  "ref_doctype": "Assessment Budget",
+  "reference_report": null,
+  "report_name": "Assessment Budget Summary",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Assessment Budget Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Assessment Budget Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Assessment Budget Summary",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-07 23:39:07.436423",
+  "module": "Accounts",
+  "name": "Assessment Budget by Class",
+  "prepared_report": 0,
+  "query": "\n    SELECT \n        asb.branch as \"Branch:Data:120\",\n        item.employer_class as \"Class:Data:60\",\n        item.category as \"Category:Link/Customer Group:200\",\n        item.current_employers as \"Curr Employers:Int:90\",\n        item.current_employees as \"Curr Employees:Float:100\",\n        item.budgeted_employers as \"Bud Employers:Float:90\",\n        item.budgeted_employees as \"Bud Employees:Float:100\",\n        item.average_salary as \"Avg Salary:Currency:100\",\n        item.assessment_rate as \"Rate %:Percent:70\",\n        item.budgeted_assessments as \"Budgeted Amount:Currency:130\",\n        asb.fiscal_year as \"Fiscal Year:Link/Fiscal Year:90\",\n        asb.name as \"Budget:Link/Assessment Budget:120\"\n    FROM `tabAssessment Budget Item` item\n    INNER JOIN `tabAssessment Budget` asb ON item.parent = asb.name\n    WHERE asb.docstatus < 2\n    ORDER BY asb.branch, item.employer_class\n    ",
+  "ref_doctype": "Assessment Budget",
+  "reference_report": null,
+  "report_name": "Assessment Budget by Class",
+  "report_script": null,
+  "report_type": "Query Report",
+  "roles": [
+   {
+    "parent": "Assessment Budget by Class",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "System Manager"
+   },
+   {
+    "parent": "Assessment Budget by Class",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Assessment Budget by Class",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 1,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Flow Transactions\"] = {\n    filters: [\n        {fieldname: \"as_of_date\", label: __(\"As Of Date\"), fieldtype: \"Date\", default: frappe.datetime.get_today(), reqd: 1},\n        {fieldname: \"horizon\", label: __(\"Horizon (Months)\"), fieldtype: \"Int\", default: 6, reqd: 1},\n        {fieldname: \"month_filter\", label: __(\"Month\"), fieldtype: \"Data\"}\n    ],\n    formatter: function(value, row, column, data, default_formatter) {\n        value = default_formatter(value, row, column, data);\n        if (column.fieldname === \"direction\" && data) {\n            if (data.direction === \"Inflow\") value = \"<span style='color:green;font-weight:bold'>\" + value + \"</span>\";\n            else if (data.direction === \"Outflow\") value = \"<span style='color:red;font-weight:bold'>\" + value + \"</span>\";\n        }\n        if (column.fieldname === \"amount\" && data) {\n            if (data.direction === \"Inflow\") value = \"<span style='color:green'>\" + value + \"</span>\";\n            else if (data.direction === \"Outflow\") value = \"<span style='color:red'>\" + value + \"</span>\";\n        }\n        return value;\n    }\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-08 06:59:05.734828",
+  "module": "Accounts",
+  "name": "Cash Flow Transactions",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Payment Entry",
+  "reference_report": null,
+  "report_name": "Cash Flow Transactions",
+  "report_script": "\ndef execute(filters=None):\n    columns = [\n        {\"fieldname\": \"month\", \"label\": \"Month\", \"fieldtype\": \"Data\", \"width\": 80},\n        {\"fieldname\": \"flow_type\", \"label\": \"Type\", \"fieldtype\": \"Data\", \"width\": 70},\n        {\"fieldname\": \"direction\", \"label\": \"Dir\", \"fieldtype\": \"Data\", \"width\": 60},\n        {\"fieldname\": \"source_type\", \"label\": \"Source\", \"fieldtype\": \"Data\", \"width\": 140},\n        {\"fieldname\": \"source_document\", \"label\": \"Document\", \"fieldtype\": \"Dynamic Link\", \"options\": \"doctype_link\", \"width\": 160},\n        {\"fieldname\": \"party\", \"label\": \"Party\", \"fieldtype\": \"Data\", \"width\": 160},\n        {\"fieldname\": \"transaction_date\", \"label\": \"Date\", \"fieldtype\": \"Date\", \"width\": 100},\n        {\"fieldname\": \"amount\", \"label\": \"Amount\", \"fieldtype\": \"Currency\", \"width\": 120}\n    ]\n    data = get_data(filters)\n    return columns, data\n\ndef get_data(filters):\n    as_of_date = filters.get(\"as_of_date\")\n    horizon = filters.get(\"horizon\") or 6\n    month_filter = filters.get(\"month_filter\")\n    \n    dates = frappe.db.sql(\"\"\"\n        SELECT \n            GREATEST(DATE_SUB(%s, INTERVAL %s MONTH), DATE_FORMAT(%s, '%%Y-01-01')) AS start_date,\n            LEAST(DATE_ADD(%s, INTERVAL %s MONTH), DATE_FORMAT(%s, '%%Y-12-31')) AS end_date\n    \"\"\", (as_of_date, horizon, as_of_date, as_of_date, horizon, as_of_date), as_dict=True)[0]\n    \n    start_date = dates.get(\"start_date\")\n    end_date = dates.get(\"end_date\")\n    \n    conditions = \"\"\n    if month_filter:\n        conditions = \"WHERE month = %(month_filter)s\"\n    \n    query = \"\"\"\n        SELECT * FROM (\n            SELECT DATE_FORMAT(pe.posting_date, '%%Y-%%m') AS month, 'Actual' AS flow_type, 'Inflow' AS direction, \n                'Payment Received' AS source_type, pe.name AS source_document, 'Payment Entry' AS doctype_link, \n                pe.party, pe.posting_date AS transaction_date, pe.paid_amount AS amount \n            FROM `tabPayment Entry` pe \n            WHERE pe.docstatus = 1 AND pe.payment_type = 'Receive' \n                AND pe.posting_date BETWEEN %(start_date)s AND %(end_date)s\n            UNION ALL \n            SELECT DATE_FORMAT(pe.posting_date, '%%Y-%%m'), 'Actual', 'Outflow', 'Payment Made', pe.name, 'Payment Entry', \n                pe.party, pe.posting_date, pe.paid_amount \n            FROM `tabPayment Entry` pe \n            WHERE pe.docstatus = 1 AND pe.payment_type = 'Pay' \n                AND pe.posting_date BETWEEN %(start_date)s AND %(end_date)s\n            UNION ALL \n            SELECT DATE_FORMAT(so.delivery_date, '%%Y-%%m'), 'Planned', 'Inflow', 'Sales Order', so.name, 'Sales Order', \n                so.customer, so.delivery_date, so.grand_total \n            FROM `tabSales Order` so \n            WHERE so.docstatus = 1 AND so.delivery_date BETWEEN %(start_date)s AND %(end_date)s \n                AND so.delivery_date > CURDATE() AND so.status NOT IN ('Completed','Cancelled','Closed')\n            UNION ALL \n            SELECT DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m'), \n                'Planned', 'Inflow', 'Budget - Forecast', b.name, 'Budget', ba.account, \n                STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), \n                ABS(ba.budget_amount) * mdp.percentage_allocation / 100 \n            FROM `tabBudget` b \n            JOIN `tabBudget Account` ba ON ba.parent = b.name \n            JOIN `tabMonthly Distribution Percentage` mdp ON mdp.parent = COALESCE(ba.custom_monthly_distribution, b.monthly_distribution) \n            WHERE b.docstatus = 1 AND b.budget_type = 'Forecast' \n                AND COALESCE(ba.custom_monthly_distribution, b.monthly_distribution) IS NOT NULL \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') BETWEEN %(start_date)s AND %(end_date)s\n            UNION ALL \n            SELECT DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m'), \n                'Planned', 'Outflow', CONCAT('Budget - ', b.budget_type), b.name, 'Budget', ba.account, \n                STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), \n                ba.budget_amount * mdp.percentage_allocation / 100 \n            FROM `tabBudget` b \n            JOIN `tabBudget Account` ba ON ba.parent = b.name \n            JOIN `tabAccount` acc ON acc.name = ba.account AND acc.root_type = 'Expense' \n            JOIN `tabMonthly Distribution Percentage` mdp ON mdp.parent = b.monthly_distribution \n            WHERE b.docstatus = 1 AND b.budget_type IN ('OPEX', 'Property Expenses', 'HR') AND b.monthly_distribution IS NOT NULL \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') BETWEEN %(start_date)s AND %(end_date)s\n            UNION ALL \n            SELECT DATE_FORMAT(ppt.contract_signing, '%%Y-%%m'), 'Planned', 'Outflow', 'Procurement Plan', pp.name, 'Procurement Plan', \n                CONCAT('Row ', ppt.idx), ppt.contract_signing, ppt.estimated_cost \n            FROM `tabProcurement Plan` pp \n            JOIN `tabProcurement Plan Type` ppt ON ppt.parent = pp.name \n            WHERE pp.docstatus = 1 AND ppt.type = 'Actual' \n                AND ppt.contract_signing BETWEEN %(start_date)s AND %(end_date)s\n        ) all_txn \n        {conditions}\n        ORDER BY month, flow_type, direction, source_type, transaction_date\n    \"\"\".replace(\"{conditions}\", conditions)\n    \n    return frappe.db.sql(query, {\"start_date\": start_date, \"end_date\": end_date, \"month_filter\": month_filter}, as_dict=True)\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Flow Transactions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Flow Transactions",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "add_translate_data": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": "\nfrappe.query_reports[\"Cash Position Projection\"] = {\n    filters: [\n        {fieldname: \"as_of_date\", label: __(\"As Of Date\"), fieldtype: \"Date\", default: frappe.datetime.get_today(), reqd: 1},\n        {fieldname: \"horizon\", label: __(\"Horizon (Months Forward)\"), fieldtype: \"Int\", default: 6, reqd: 1}\n    ],\n    formatter: function(value, row, column, data, default_formatter) {\n        value = default_formatter(value, row, column, data);\n        if (data && data.period_type === \"Current Balance\" && (column.fieldname === \"period_type\" || column.fieldname === \"projected_cash_balance\")) {\n            value = \"<span style='font-weight:bold;color:#5e64ff'>\" + value + \"</span>\";\n        }\n        if (column.fieldname === \"net_change\" && data) {\n            if (parseFloat(data.net_change) < 0) value = \"<span style='color:red'>\" + value + \"</span>\";\n            else if (parseFloat(data.net_change) > 0) value = \"<span style='color:green'>\" + value + \"</span>\";\n        }\n        if (column.fieldname === \"projected_cash_balance\" && data && data.period_type !== \"Current Balance\" && parseFloat(data.projected_cash_balance) < 0) {\n            value = \"<span style='color:red;font-weight:bold'>\" + value + \"</span>\";\n        }\n        return value;\n    }\n};",
+  "json": null,
+  "letter_head": "WCFCB",
+  "modified": "2025-12-08 06:59:05.801952",
+  "module": "Accounts",
+  "name": "Cash Position Projection",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "GL Entry",
+  "reference_report": null,
+  "report_name": "Cash Position Projection",
+  "report_script": "\ndef execute(filters=None):\n    columns = [\n        {\"fieldname\": \"month\", \"label\": \"Month\", \"fieldtype\": \"Data\", \"width\": 100},\n        {\"fieldname\": \"period_type\", \"label\": \"Period Type\", \"fieldtype\": \"Data\", \"width\": 120},\n        {\"fieldname\": \"planned_inflow\", \"label\": \"Planned Inflow\", \"fieldtype\": \"Currency\", \"width\": 140},\n        {\"fieldname\": \"planned_outflow\", \"label\": \"Planned Outflow\", \"fieldtype\": \"Currency\", \"width\": 140},\n        {\"fieldname\": \"net_change\", \"label\": \"Net Change\", \"fieldtype\": \"Currency\", \"width\": 130},\n        {\"fieldname\": \"projected_cash_balance\", \"label\": \"Projected Balance\", \"fieldtype\": \"Currency\", \"width\": 160}\n    ]\n    data = get_data(filters)\n    chart = get_chart(data)\n    return columns, data, None, chart\n\ndef get_data(filters):\n    as_of_date = filters.get(\"as_of_date\")\n    horizon = filters.get(\"horizon\") or 6\n    \n    # Get current bank balance\n    current_balance = frappe.db.sql(\"\"\"\n        SELECT COALESCE(SUM(gle.debit - gle.credit), 0) AS balance \n        FROM `tabAccount` acc \n        LEFT JOIN `tabGL Entry` gle ON gle.account = acc.name AND gle.docstatus = 1 AND gle.posting_date <= %s \n        WHERE acc.account_type = 'Bank' AND acc.is_group = 0 AND acc.disabled = 0\n    \"\"\", (as_of_date,))[0][0] or 0\n    \n    # Get end date\n    end_date = frappe.db.sql(\"\"\"SELECT DATE_ADD(%s, INTERVAL %s MONTH) AS end_date\"\"\", (as_of_date, horizon))[0][0]\n    \n    # Get projected flows\n    flows = frappe.db.sql(\"\"\"\n        SELECT m.month,\n            COALESCE(pio.amount, 0) + COALESCE(pif.amount, 0) AS planned_inflow,\n            COALESCE(pob.amount, 0) + COALESCE(pop.amount, 0) AS planned_outflow,\n            (COALESCE(pio.amount, 0) + COALESCE(pif.amount, 0) - COALESCE(pob.amount, 0) - COALESCE(pop.amount, 0)) AS net_change\n        FROM (\n            SELECT DISTINCT DATE_FORMAT(so.delivery_date, '%%Y-%%m') AS month \n            FROM `tabSales Order` so \n            WHERE so.docstatus = 1 AND so.delivery_date > %(as_of_date)s AND so.delivery_date <= %(end_date)s \n                AND so.status NOT IN ('Completed','Cancelled','Closed')\n            UNION\n            SELECT DISTINCT DATE_FORMAT(ppt.contract_signing, '%%Y-%%m') \n            FROM `tabProcurement Plan` pp \n            JOIN `tabProcurement Plan Type` ppt ON ppt.parent = pp.name \n            WHERE pp.docstatus = 1 AND ppt.type = 'Actual' \n                AND ppt.contract_signing > %(as_of_date)s AND ppt.contract_signing <= %(end_date)s\n            UNION\n            SELECT DISTINCT DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m') \n            FROM `tabBudget` b \n            JOIN `tabMonthly Distribution Percentage` mdp ON mdp.parent = b.monthly_distribution \n            WHERE b.docstatus = 1 AND b.monthly_distribution IS NOT NULL \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') > %(as_of_date)s \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') <= %(end_date)s\n        ) m\n        LEFT JOIN (\n            SELECT DATE_FORMAT(so.delivery_date, '%%Y-%%m') AS month, SUM(so.grand_total) AS amount \n            FROM `tabSales Order` so \n            WHERE so.docstatus = 1 AND so.delivery_date > %(as_of_date)s AND so.delivery_date <= %(end_date)s \n                AND so.status NOT IN ('Completed','Cancelled','Closed') \n            GROUP BY 1\n        ) pio ON m.month = pio.month\n        LEFT JOIN (\n            SELECT DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m') AS month,\n                   SUM(ABS(ba.budget_amount) * mdp.percentage_allocation / 100) AS amount \n            FROM `tabBudget` b \n            JOIN `tabBudget Account` ba ON ba.parent = b.name \n            JOIN `tabMonthly Distribution Percentage` mdp ON mdp.parent = COALESCE(ba.custom_monthly_distribution, b.monthly_distribution) \n            WHERE b.docstatus = 1 AND b.budget_type = 'Forecast' \n                AND COALESCE(ba.custom_monthly_distribution, b.monthly_distribution) IS NOT NULL \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') > %(as_of_date)s \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') <= %(end_date)s \n            GROUP BY 1\n        ) pif ON m.month = pif.month\n        LEFT JOIN (\n            SELECT DATE_FORMAT(STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d'), '%%Y-%%m') AS month,\n                   SUM(ba.budget_amount * mdp.percentage_allocation / 100) AS amount \n            FROM `tabBudget` b \n            JOIN `tabBudget Account` ba ON ba.parent = b.name \n            JOIN `tabAccount` acc ON acc.name = ba.account AND acc.root_type = 'Expense' \n            JOIN `tabMonthly Distribution Percentage` mdp ON mdp.parent = b.monthly_distribution \n            WHERE b.docstatus = 1 AND b.budget_type IN ('OPEX', 'Property Expenses', 'HR') AND b.monthly_distribution IS NOT NULL \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') > %(as_of_date)s \n                AND STR_TO_DATE(CONCAT(b.fiscal_year, '-', LPAD(mdp.idx, 2, '0'), '-01'), '%%Y-%%m-%%d') <= %(end_date)s \n            GROUP BY 1\n        ) pob ON m.month = pob.month\n        LEFT JOIN (\n            SELECT DATE_FORMAT(ppt.contract_signing, '%%Y-%%m') AS month, SUM(ppt.estimated_cost) AS amount \n            FROM `tabProcurement Plan` pp \n            JOIN `tabProcurement Plan Type` ppt ON ppt.parent = pp.name \n            WHERE pp.docstatus = 1 AND ppt.type = 'Actual' \n                AND ppt.contract_signing > %(as_of_date)s AND ppt.contract_signing <= %(end_date)s \n            GROUP BY 1\n        ) pop ON m.month = pop.month\n        ORDER BY m.month\n    \"\"\", {\"as_of_date\": as_of_date, \"end_date\": end_date}, as_dict=True)\n    \n    # Build result with running balance\n    result = []\n    current_month = frappe.db.sql(\"\"\"SELECT DATE_FORMAT(%s, '%%Y-%%m')\"\"\", (as_of_date,))[0][0]\n    \n    # First row: current balance\n    result.append({\n        \"month\": current_month,\n        \"period_type\": \"Current Balance\",\n        \"planned_inflow\": 0,\n        \"planned_outflow\": 0,\n        \"net_change\": 0,\n        \"projected_cash_balance\": current_balance\n    })\n    \n    # Subsequent rows with running balance\n    running_balance = current_balance\n    for flow in flows:\n        net = flow.get(\"net_change\") or 0\n        running_balance += net\n        result.append({\n            \"month\": flow.get(\"month\"),\n            \"period_type\": \"Projected\",\n            \"planned_inflow\": flow.get(\"planned_inflow\") or 0,\n            \"planned_outflow\": flow.get(\"planned_outflow\") or 0,\n            \"net_change\": net,\n            \"projected_cash_balance\": running_balance\n        })\n    \n    return result\n\ndef get_chart(data):\n    if not data:\n        return None\n    labels = [d.get(\"month\") for d in data]\n    return {\n        \"data\": {\n            \"labels\": labels,\n            \"datasets\": [\n                {\"name\": \"Projected Balance\", \"values\": [d.get(\"projected_cash_balance\") or 0 for d in data], \"chartType\": \"line\"},\n                {\"name\": \"Net Change\", \"values\": [d.get(\"net_change\") or 0 for d in data], \"chartType\": \"bar\"}\n            ]\n        },\n        \"type\": \"axis-mixed\",\n        \"colors\": [\"#5e64ff\", \"#98d85b\"],\n        \"lineOptions\": {\"regionFill\": 1}\n    }\n",
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "parent": "Cash Position Projection",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts Manager"
+   },
+   {
+    "parent": "Cash Position Projection",
+    "parentfield": "roles",
+    "parenttype": "Report",
+    "role": "Accounts User"
+   }
+  ],
+  "timeout": 0
+ }
+]
