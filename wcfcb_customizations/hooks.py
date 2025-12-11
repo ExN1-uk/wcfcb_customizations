@@ -140,7 +140,8 @@ fixtures = [
 # ------------
 
 # before_install = "wcfcb_customizations.install.before_install"
-# after_install = "wcfcb_customizations.install.after_install"
+after_install = "wcfcb_customizations.install.after_install"
+after_migrate = "wcfcb_customizations.install.after_migrate"
 
 # Uninstallation
 # ------------
