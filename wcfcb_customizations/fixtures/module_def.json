@@ -1,0 +1,47 @@
+[
+ {
+  "_assign": null,
+  "_comments": null,
+  "_liked_by": null,
+  "_user_tags": null,
+  "app_name": "frappe",
+  "custom": 0,
+  "docstatus": 0,
+  "doctype": "Module Def",
+  "modified": "2025-03-08 13:16:20.711606",
+  "module_name": "ExN",
+  "name": "ExN",
+  "package": null,
+  "restrict_to_domain": null
+ },
+ {
+  "_assign": null,
+  "_comments": null,
+  "_liked_by": null,
+  "_user_tags": null,
+  "app_name": "frappe",
+  "custom": 1,
+  "docstatus": 0,
+  "doctype": "Module Def",
+  "modified": "2025-03-24 09:00:22.874407",
+  "module_name": "ZRA INTERGRATION",
+  "name": "ZRA INTERGRATION",
+  "package": "ZRA SMART INVOICE",
+  "restrict_to_domain": null
+ },
+ {
+  "_assign": null,
+  "_comments": null,
+  "_liked_by": null,
+  "_user_tags": null,
+  "app_name": "frappe",
+  "custom": 1,
+  "docstatus": 0,
+  "doctype": "Module Def",
+  "modified": "2025-08-16 23:58:29.955599",
+  "module_name": "WCFCB CRM",
+  "name": "WCFCB CRM",
+  "package": null,
+  "restrict_to_domain": null
+ }
+]

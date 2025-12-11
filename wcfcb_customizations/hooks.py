@@ -13,6 +13,9 @@ required_apps = ["frappe", "erpnext", "hrms"]
 # Fixtures - All customizations to be exported/imported
 # ------------------------------------------------------
 fixtures = [
+    # Custom Modules (ExN, ZRA INTERGRATION, WCFCB CRM)
+    {"dt": "Module Def", "filters": [["name", "in", ["ExN", "ZRA INTERGRATION", "WCFCB CRM"]]]},
+
     # Custom Fields on standard DocTypes
     "Custom Field",
 
